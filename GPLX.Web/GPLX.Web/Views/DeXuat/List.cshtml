@@ -1,0 +1,333 @@
+﻿@using GPLX.Web.Models.Dashboard
+@{
+    ViewData["Title"] = "Danh sách đề xuất";
+    ViewData["PageTitle"] = "Danh sách đề xuất";
+}
+
+@model DeXuatFilterModel
+<div class="row">
+    <div class="col-md-9 col-sm-12" >
+        <div class="card" id="FilterSearch">
+            <div class="card-body">
+                <div class="row justify-content-between" id="requestSearchForm">
+                    <div class="col-md-12 col-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Thời gian từ:</label><label class="labelrequired">*</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control form-control-sm" placeholder="Thời gian từ" id="txtND" name="Keywords" value="@System.DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Thời gian đến:</label><label class="labelrequired">*</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control form-control-sm"  placeholder="Thời gian đến" id="txtNS" name="Keywords" value="@System.DateTime.Now.ToString("yyyy-MM-dd")">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Loại đề xuất:</label>
+                                    <div class="input-group">
+                                        @Html.DropDownList("ddlLoaiDeXuat", Model.LstLoaiDeXuat , new { @class = "form-control form-control-sm select2-selection ", @style="font-size: 0.9rem" })
+                                    </div>
+                                    @*<div class="input-group">
+                                        <select class="form-control form-control-sm" id="ddlLoaiDeXuat">
+                                            <option value="-1">Tất cả</option>
+                                            <option value="DeXuatKhoaMa">DeXuatKhoaMa</option>
+                                            <option value="DeXuatLuanChuyenMa">DeXuatLuanChuyenMa</option>
+                                            <option value="DeXuatMoMaCTV">DeXuatMoMaCTV</option>
+                                            <option value="DeXuatTaoMa">DeXuatTaoMa</option>
+                                        </select>
+                                    </div>*@
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Trạng thái:</label>
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm" id="ddlStatus">
+                                            <option value="-1">Tất cả</option>
+                                            <option value="0">Chờ duyệt</option>
+                                            <option value="1">Đã duyệt</option>
+                                            <option value="2">Hoàn thành</option>
+                                            <option value="3">Quá hạn</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Mã đề xuất:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Nhập mã đề xuất" id="txtDeXuatCode" name="Keywords">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-8">
+                                <div class="form-group">
+                                    <label>Tên đề xuất:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Nhập tên đề xuất" id="txtDeXuatName" name="Keywords">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <div class="form-group">
+                                    <label>Người tạo:</label>
+                                    <div class="input-group">
+                                        @Html.DropDownList("ddlUser", Model.LstUsers , new { @class = "form-control form-control-sm select2-selection", @style="font-size: 0.9rem" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-header" style="border-bottom:none!important">
+                                <button class="btn btn-sm med-btn-outline-primary" id="btnCreate" style="min-width:150px">
+                                    <i class="fad fa-plus-circle"></i> Thêm
+                                </button>
+                                <button class="btn btn-sm med-btn-outline-primary" id="btnExportExcel" style="min-width:150px">
+                                    <i class="fad fa-plus-circle"></i> Xuất Excel
+                                </button>
+                                @*<button class="btn btn-sm med-btn-outline-primary" id="btnExportPdf" style="min-width:150px">
+                                    <i class="fad fa-plus-circle"></i> Xuất Pdf
+                                </button>*@
+                                <button class="btn btn-sm med-btn-outline-primary" id="requestSearchButton" style="min-width:150px">
+                                    <i class="fad fa-plus-circle"></i> Tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12" >
+        <div class="card" id="FilterStatic">
+            <div class="card-body">
+                <div class="row justify-content-between" >
+                    <div class="col-md-12" style="padding-top:10px"> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-warning mb-3" style="max-width: 20rem;">
+                                    <div class="card-header">Chờ duyệt</div>
+                                    <div class="card-body text-warning">
+                                        <h5 class="card-title">@Model.ChoDuyet</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                                    <div class="card-header">Đã duyệt</div>
+                                    <div class="card-body text-primary">
+                                        <h5 class="card-title">@Model.DaDuyet</h5>
+                                    </div>         
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-success mb-3" style="max-width: 20rem;">
+                                    <div class="card-header">Hoàn thành</div>
+                                    <div class="card-body text-success">
+                                        <h5 class="card-title">@Model.HoanThanh</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-secondary mb-3" style="max-width: 20rem;">
+                                    <div class="card-header">Quá hạn</div>
+                                    <div class="card-body text-secondary">
+                                        <h5 class="card-title">@Model.QuaHan</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="tblList" class="table table-sm table-hover stripe table-bordered nowrap" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã đề xuất</th>
+                            <th>Tên đề xuất</th>
+                            <th>Loại đề xuất</th>
+                            <th>PDF</th>
+                            <th>Tiến trình</th>
+                            <th>Trạng thái</th>
+                            <th>Người tạo</th>
+                            <th>Thời gian tạo</th>
+                            <th>Người sửa</th>
+                            <th>Thời gian sửa</th>
+                            <th>Thao tác</th>
+                            <th>Hoàn thiện</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="~/Views/Partial/_OverlayModal.cshtml" />
+
+@section top {
+    <link href="~/css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2.min.css" />
+    @*<link href="~/css/compiled-4.20.0.min.css" rel="stylesheet" />*@
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.rowReorder.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script src="~/js/uri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/select2.min.js"></script>
+    <script type="text/javascript" src="~/js/DeXuat/list.js"></script>
+}
+
+<style type="text/css">
+    .docs-pills {
+        margin: 1.4rem 0 0 0;
+    }
+    .section-preview {
+        padding: 0 !important;
+    }
+
+    .section-preview > section > div {
+        border: none !important;
+    }
+    .section-preview > section > div > * {
+        margin: 8px 8px 32px 8px;
+    }
+
+    .section-preview > section > div > div:last-child {
+        margin: 0px;
+    }
+
+    .section-preview {
+        padding: 0;
+    }
+
+    .section-preview > section > div > div:last-child {
+        border: 1px solid #dee2e6 !important;
+    }
+
+    .bg-white {
+        background-color: #fff!important;
+    }
+    .border {
+        border: 1px solid #dee2e6!important;
+    }
+
+    .card[class*="border"] {
+        border: 1px solid #9e9e9e;
+        /*-webkit-box-shadow: none;*/
+        box-shadow: none;
+    }
+    .mb-3, .my-3 {
+        margin-bottom: 1rem!important;
+    }
+
+    .border-primary {
+        border-color: #007bff!important;
+    }
+    .card {
+        position: relative;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+        font-weight: 400;
+    }
+    .card-header:first-child {
+        border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    }
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+        padding: 0.75rem 1.25rem;
+        position: relative;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        margin-bottom: 0;
+    }
+    .card-body {
+        padding: 0.5rem 1rem;
+    }
+    .text-primary {
+        color: #007bff!important;
+    }
+    .link-danger {
+        color: #dc3545;
+    }
+    .link-danger:hover {
+        color: #dc3545;
+    }
+    .link-success {
+        color: #198754;
+    }
+    .link-success:hover {
+        color: #198754;
+    }
+    .link-primary {
+        color: #0d6efd;
+    }
+    .link-primary:hover {
+        color: #0d6efd;
+    }
+    .link-warning {
+        color: #ffc107;
+    }
+    .link-warning:hover {
+        color: #ffc107;
+    }
+    .link-secondary {
+        color: #6c757d;
+    }
+    .link-secondary:hover {
+        color: #6c757d;
+    }
+</style>
+<style type="text/css">
+    .select2-container--default {
+        font-size: 100%!important;
+    }
+</style>

@@ -1,0 +1,129 @@
+﻿@using GPLX.Web.Models.CostStatus
+@model GPLX.Database.Models.CostStatuses
+@{
+    var dropdownData = ViewBag.DropdownData as CostStatusListModel ?? new CostStatusListModel();
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới trạng thái" : ViewBag.ViewMode == "view" ? "Thông tin trạng thái" : "Chỉnh sửa thông tin trạng thái";
+    string record = ViewBag.RawId ?? string.Empty;
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(record)" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    @display
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="___createForm">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="inputName">Mã trạng thái</label>
+                                <input id="inputName" name="inputName" value="@(Model?.Name)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Giá trị</label>
+                                <input value="@(Model?.Value)" id="inputValue" name="inputValue" type="number" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label>Đối tượng</label>
+                                <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Phân biệt luồng trạng thái giữa SUB và đơn vị thành viên"></i>
+                                <select class="form-control form-control-sm" id="selectSubject" name="selectSubject" disabled="@(viewMode.Equals("view"))">
+                                    @foreach (var c in dropdownData.StatusForSubject)
+                                    {
+                                        <option value="@c.Value" selected="@(Model?.StatusForSubject.Equals(c.Value))">@c.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Thời gian</label>
+                                <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Phân biệt trạng thái áp dụng cho dự trù tuần hay dự trù năm"></i>
+                                <select class="form-control form-control-sm" id="selectStatusForCostEstimateType" name="selectStatusForCostEstimateType" disabled="@(viewMode.Equals("view"))">
+                                    @foreach (var c in dropdownData.StatusForCostEstimateType)
+                                    {
+                                        <option value="@c.Value" selected="@(Model?.StatusForCostEstimateType.Equals(c.Value))">@c.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Nhóm dữ liệu</label>
+                                <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Cùng một mã trạng thái nhưng sẽ áp dụng cho các nhóm dữ liệu khác nhau"></i>
+                                <select class="form-control form-control-sm" id="selectTypes" name="selectTypes" disabled="@(viewMode.Equals("view"))">
+                                    @foreach (var c in dropdownData.Types)
+                                    {
+                                        <option value="@c.Value" selected="@(Model?.Type.Equals(c.Value))">@c.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Thứ tự</label>
+                                <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Quy định thứ tự của trạng thái trong luồng phê duyệt hoặc từ chối"></i>
+                                <input type="number" class="form-control form-control-sm" id="inputOrder" name="inputOrder" value="@(Model?.Order)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Trạng thái phê duyệt</label> <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Dùng để phân biệt giữa trạng thái phê duyệt và các trạng thái khác"></i>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="checkApprove" checked="@(Model?.IsApprove == 1)">
+                                    <label for="checkApprove" class="custom-control-label">Phê duyệt</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Bước ký số</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="checkSigned" checked="@(Model?.Singed)">
+                                    <label for="checkSigned" class="custom-control-label">Ký số</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="card-footer text-right">
+                    <button type="button" class="btn btn-sm med-btn-outline-primary" id="btnSave">
+                        <i class="fad fa-save"></i> Lưu lại
+                    </button>
+                    <button type="button" class="btn btn-sm med-btn-outline-primary" data-back="true">
+                        Quay lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{ 
+    @if (!string.IsNullOrEmpty(record) && Model == null)
+    {
+        <script type="text/javascript">
+            costJsBase.EventNotify('error', 'Không tìm thấy dữ liệu yêu cầu!')
+        </script>
+    }
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/status/create.js"></script>
+}

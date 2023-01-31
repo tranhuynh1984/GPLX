@@ -1,0 +1,22 @@
+{
+    "name": "wwwroot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "dependencies": {
+        "admin-lte": "^3.2.0",
+        "exceljs": "^4.3.0",
+        "luckysheet": "^2.1.13",
+        "x-data-spreadsheet": "^1.1.9",
+        "xlsx": "^0.17.3",
+        "xlsx-style": "^0.8.13"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+}

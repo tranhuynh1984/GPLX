@@ -1,0 +1,251 @@
+﻿@{
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.Record) ? "Chỉnh sửa báo cáo thực chi" : "Lập báo cáo thực chi";
+    ViewData["PageTitle"] = !string.IsNullOrEmpty(Model.Record) ? "Chỉnh sửa báo cáo thực chi" : "Lập báo cáo thực chi";
+    Layout = Model.Partial ? null : "_Layout";
+
+
+    var wInYear = DateTime.Now.Year.WeekInYear();
+    wInYear = !string.IsNullOrEmpty(Model.Record) ? wInYear.Where(c => c.weekNum >= Model.ReportForWeek).ToList() : wInYear.Where(c => c.weekStart >= DateTime.Now).ToList();
+
+}
+@using GPLX.Infrastructure.Extensions
+@using Newtonsoft.Json
+@model ActuallyCreateModel
+<input id="__recordCostEstimate" type="hidden" value="@(Model.Record)" />
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="selectReportForWeek">Tuần lập báo cáo</label>
+                            </div>
+                            @* BC thực chi k lập vào tuần đầu *@
+                            @Html.DropDownList("selectReportForWeek", wInYear.Select(a => new SelectListItem
+                            {
+                                Value = a.weekNum.ToString(),
+                                Text = $"Tuần {a.weekNum}",
+                                Selected = Model.ReportForWeek == a.weekNum,
+                            }).ToList(), "-- Chọn tuần báo cáo --", !Model.EnableCreate ? new { disabled = true } : null)
+
+                        </div>
+                    </div>
+                    @if (Model.EnableCreate)
+                    {
+                        <div class="col-md-8 col-sm-6">
+                            <div class="card-tools float-right">
+                                <div class="input-group input-group-sm">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-truncate align-middle d-none mr-2" id="labelFileSelect"></span>
+                                        <button class="btn btn-sm btn-default d-none mr-2" type="button" id="btnStartUpload">
+                                            <i class="fas fa-arrow-circle-up mr-1"></i> <span>Tải lên</span>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-success mr-2" type="button" id="btnSelectExcelFile" title="Nhập dữ liệu từ excel">
+                                            <i class="fas fa-file-excel"></i>
+                                        </button>
+
+                                        <a class="btn btn-sm btn-outline-primary mr-2" href="/CostEstimateItem/DownloadTemplate?opts=xlsx;actually" title="Tải tệp excel mẫu">
+                                            <i class="fas fa-file-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <label style="display: @(!string.IsNullOrEmpty(Model.Record) && Model.ReportForWeek > 1 ? "block" : "none")"
+                               id="lblWeekActuallySpent">Tổng hợp các khoản dự trù đã duyệt chưa được báo cáo thực chi tính đến hết tuần: @(Model.ReportForWeek - 1)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="input-group input-group-sm">
+                                <select class="form-control form-control-sm" id="__selectTableSearch">
+                                    <option value="">Tất cả</option>
+                                    <option value="In">Trong dự trù</option>
+                                    <option value="Out">Phát sinh</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="table_search" id="__inputTableSearch" class="form-control float-right" placeholder="Mã dự trù hoặc nội dung">
+
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-default" id="__btnTableSearch">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-sm table-striped table-bordered display nowrap" id="createCostEstimateUploadTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th position="0">#</th>
+                            <th position="1" scope="col" class="align-top">Mã dự trù</th>
+                            <th position="2" scope="col" class="align-top">Nội dung chi</th>
+                            <th position="3" scope="col" class="align-top">Loại chi phí</th>
+                            <th position="4" scope="col" class="align-top">Số tiền dự trù</th>
+                            <th position="5" scope="col" class="align-top">Thời gian dự trù</th>
+                            <th position="6" scope="col" class="align-top">Số đã chi</th>
+                            <th position="7" scope="col" class="align-top">Số còn phải chi</th>
+                            <th position="8" scope="col" class="align-top">Tổng tiền chi thực đến thời điểm hiện tại</th>
+                            <th position="9" scope="col" class="align-top">Thời gian chi thực</th>
+                            <th position="10" scope="col" class="align-top">Số chứng từ kế toán </th>
+                            <th position="11" scope="col" class="align-top">Giải trình</th>
+                            @if (Model.EnableCreate)
+                            {
+                                @*<th position="12" scope="col" class="align-top">Thao tác</th>*@
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th colspan="3" style="text-align: right">
+                                Tổng hợp số tiền đã chi tuần
+                                <span id="weekLable">@(!string.IsNullOrEmpty(Model.Record) ? (Model.ReportForWeek - 1).ToString() : "")</span>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th>Số đã chi</th>
+                            <th>Còn phải chi</th>
+                            <th>Tổng đến hiện tại</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            @if (Model.EnableCreate)
+                            {
+                                @*<th></th>*@
+                            }
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="card d-none" id="boxExcelErrors">
+            <div class="card-header">
+                <h3 class="card-title">Chi tiết mã lỗi</h3>
+            </div>
+            <div class="card-body">
+                <p id="errorCollapse" class="collapse" aria-expanded="false">
+                </p>
+                <a class="collapsed" data-toggle="collapse" href="#errorCollapse" aria-expanded="false" aria-controls="errorCollapse"></a>
+            </div>
+        </div>
+
+        <div class="card">
+            @if (Model.EnableCreate)
+            {
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 text-right mb-2">
+
+                            <input type="file" class="d-none" id="costEstimateExcelFile" accept=".xlsx" />
+                            <button class="btn btn-sm med-btn-outline-primary" type="button" id="btnCreate">
+                                <i class="fad fa-save mr-2"></i> Lưu lại
+                            </button>
+                            <a class="btn btn-sm med-btn-outline-primary" href="/ActuallySpent/List" data-back="true">
+                                Quay lại
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@if (!Model.Partial)
+{
+    @section top {
+        <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+        <!-- DataTables -->
+        <link rel="stylesheet" href="~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="~/node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+        <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+        <link href="~/css/editor.bootstrap.min.css" rel="stylesheet" />
+    }
+    @section middle_scripts
+{
+        <script src="~/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="~/js/dataTables.fixedColumns.min.js"></script>
+        <script src="~/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="~/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="~/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="~/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="~/node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+        <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+        <script src="~/js/extends/dataTables.scroller.min.js"></script>
+        <script src="~/node_modules/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/extends/Datatables.Editor.js"></script>
+    }
+}
+
+@if (Model.Partial)
+{
+    @if (!string.IsNullOrEmpty(Model.Record))
+    {
+        <script type="text/javascript">
+            var dataSrc = '@Html.Raw(JsonConvert.SerializeObject(Model.DataView, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }))';
+            var partial = true;
+            @if (Model.DataView == null || !Model.DataView.Any())
+            {
+                @Html.Raw("costJsBase.EventNotify('error', 'Không tìm thấy dữ liệu yêu cầu!')");
+            }
+        </script>
+    }
+
+    @if (Model.Type != null)
+    {
+        <script type="text/javascript">
+            var dataSelects = '@Html.Raw(JsonConvert.SerializeObject(Model.Type, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }))';
+        </script>
+    }
+    <script src="~/js/actually/create.js"></script>
+}
+
+@section scripts
+{
+    <script src="~/js/uri.js"></script>
+    @if (!string.IsNullOrEmpty(Model.Record))
+    {
+        <script type="text/javascript">
+            var dataSrc = '@Html.Raw(JsonConvert.SerializeObject(Model.DataView, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }))';
+            @if (Model.DataView == null || !Model.DataView.Any())
+            {
+                @Html.Raw("costJsBase.EventNotify('error', 'Không tìm thấy dữ liệu yêu cầu!')");
+            }
+        </script>
+    }
+    @if (Model.Type != null)
+    {
+        <script type="text/javascript">
+            var dataSelects = '@Html.Raw(JsonConvert.SerializeObject(Model.Type, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }))';
+        </script>
+    }
+    <script src="~/js/actually/create.js"></script>
+}

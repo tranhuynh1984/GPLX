@@ -1,0 +1,136 @@
+﻿@using GPLX.Core.Extensions
+@using GPLX.Database.Models
+@using GPLX.Infrastructure.Constants
+@using Newtonsoft.Json
+@model GPLX.Web.Models.Users.UsersListModel
+@{
+    var oUser = ViewBag.oUser as Users;
+}
+<input type="hidden" id="___record" value="@(ViewBag.Record)" />
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Bổ sung thông tin thành viên</h2>
+        @if (oUser == null)
+        {
+            <div class="alert alert-danger" role="alert">
+                Không tìm thấy dữ liệu thành viên!
+            </div>
+        }
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label>Phòng ban:</label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" id="selectSettingDeparts">
+                            @foreach (var u in Model.Departments)
+                            {
+                                <option selected="@(u.Selected)" value="@u.Value">@u.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label for="signature">Mẫu chữ ký</label>
+                    <div>
+                        <input type="file" id="signature" name="signature" accept=".jpg,.png">
+                    </div>
+                    @if (oUser != null && !string.IsNullOrEmpty(oUser.PathSignature))
+                    {
+                        <div class="mt-1">
+
+                            <a href="@(oUser.PathSignature)" target="_blank">
+                                <i class="fad fa-file-contract"></i> Xem
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label>Chức vụ:</label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" id="selectSettingGroups" multiple="multiple">
+                            @foreach (var u in Model.Groups)
+                            {
+                                <option selected="@(u.Selected)" value="@u.Value">@u.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group">
+                    <label>
+                        Đơn vị được giao quản lý:
+                        <i class="fa fa-question-circle" data-toggle="tooltip" title="Dành cho P.TGĐ, TGĐ quản lý đơn vị"></i>
+                    </label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" id="selectUnitSettings" multiple="multiple">
+                            @foreach (var u in Model.Units)
+                            {
+                                <option selected="@(u.Selected)" value="@u.Value">@u.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <fieldset class="border p-2" id="_boxUnitCurrently">
+            <legend class="w-auto h6">
+                Đơn vị kiêm nhiệm
+                <i class="fa fa-question-circle" data-toggle="tooltip" title="Dành cho KTT kiêm nhiệm KT tại đơn vị khác"></i>
+            </legend>
+            @foreach (var i in Model.CurrentlySetting)
+            {
+                <div class="row">
+                    <div class="col-md-7 col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" ssl="unit-currently">
+                                    @foreach (var u in Model.UnitChanges)
+                                    {
+                                        <option selected="@u.Value.Equals(i.UnitCode, StringComparison.CurrentCultureIgnoreCase)" value="@u.Value">@u.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" ssl="group-currently">
+                                    @{
+                                        var enc = i.GroupId.ToString().StringAesEncryption(UsersConst.PublicKey);
+                                    }
+                                    @foreach (var u in Model.Groups)
+                                    {
+                                        <option selected="@u.Value.Equals(enc, StringComparison.CurrentCultureIgnoreCase)" value="@u.Value">@u.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-12">
+                        <button class="btn text-danger" ssl="del">
+                            <i class="fal fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </fieldset>
+        <div class="row mt-2">
+            <p class="col-md-12 text-success text-center pointer" id="__addUnitCurrently">
+                <i class="fal fa-plus"></i>
+                Thêm đơn vị kiêm nhiệm
+            </p>
+        </div>
+    </div>
+</div>

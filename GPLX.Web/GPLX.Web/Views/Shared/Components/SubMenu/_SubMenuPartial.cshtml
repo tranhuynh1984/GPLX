@@ -1,0 +1,45 @@
+﻿@model MenuBuilder
+@functions
+{
+    string _writeIdentify(string module)
+    {
+        if (!string.IsNullOrEmpty(module))
+            return $"identifier={module}";
+        return null;
+    }
+}
+@if (!string.IsNullOrEmpty(Model.Parent.Url))
+{
+    <li class="nav-item" specifer="@Model.Parent.Id" @(_writeIdentify(Model.Parent.Module))>
+        <a href="@Model.Parent.Url" class="nav-link pl-4">
+            <i class="nav-icon @(Model.Parent.IconClass)"></i>
+            <p>@Model.Parent.Name</p>
+        </a>
+    </li>
+}
+else
+{
+    @if (Model.ChildFunctions.Count == 0)
+    {
+        <li class="nav-header">@Model.Parent.Name</li>
+    }
+    else
+    {
+        <li class="nav-item" @(_writeIdentify(Model.Parent.Module)) specifer="@Model.Parent.Id">
+            <a href="javascript: void(0);" class="nav-link without pl-4">
+                <i class="nav-icon @(Model.Parent.IconClass)"></i>
+                <p>
+                    @Model.Parent.Name
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview pl-3">
+                @foreach (var mChildFunction in Model.ChildFunctions)
+                {
+                    @await Component.InvokeAsync("SubMenu", mChildFunction)
+                }
+            </ul>
+        </li>
+    }
+}
+

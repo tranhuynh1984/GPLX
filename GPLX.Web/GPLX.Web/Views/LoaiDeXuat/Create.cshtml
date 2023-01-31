@@ -1,0 +1,132 @@
+﻿@model GPLX.Core.DTO.Response.LoaiDeXuat.LoaiDeXuatSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới loại đề xuất" : ViewBag.ViewMode == "view" ? "Thông tin loại đề xuất" : "Chỉnh sửa thông tin loại đề xuất";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.LoaiDeXuatCode)" />
+    <div class="col-md-12">
+        <div class="card">
+            @*<div class="card-header" style="background-color:#ececec">
+                @display
+            </div>*@
+            <div class="card-body">
+                
+                @if (viewMode.Equals("view"))
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmmaloaidexuat">Mã Loại Đề Xuất:</label>
+                                <input id="txtmaloaidexuat" value="@(Model?.LoaiDeXuatCode)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmtenloaidexuat">Tên Loại Đề Xuất:</label>
+                                <input id="txttenloaidexuat" value="@(Model?.LoaiDeXuatName)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatusloaidexuat" disabled>
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian tạo:</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Createdate)" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Stt)" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian sửa:</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Updatedate)" disabled />
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmmaloaidexuat">Mã Loại Đề Xuất:</label><label class="labelrequired">*</label>
+                                @if(String.IsNullOrEmpty(Model?.LoaiDeXuatCode))
+                                {
+                                    <input id="txtmaloaidexuat" value="" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                                else
+                                {
+                                    <input id="txtmaloaidexuat" value="@(Model?.LoaiDeXuatCode)" readonly="readonly"  class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmtenloaidexuat">Tên Loại Đề Xuất:</label><label class="labelrequired">*</label>
+                                <input id="txttenloaidexuat" value="@(Model?.LoaiDeXuatName)" class="form-control form-control-sm" maxlength="200"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatusloaidexuat">
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label><label class="labelrequired">*</label>
+                                <input id="txtstt" value="@(Model?.LoaiDeXuatCode == null ? Model?.MaxStt : Model?.Stt)" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" type="text" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" maxlength="4"/>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#txtmaloaidexuat").change(function () {
+        $("#txtmaloaidexuat").removeClass('itemerror');
+    });
+    $("#txttenloaidexuat").change(function () {
+        $("#txttenloaidexuat").removeClass('itemerror');
+    });
+</script>

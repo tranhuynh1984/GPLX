@@ -1,0 +1,51 @@
+﻿@model GPLX.Core.DTO.Response.Department.DepartmentSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới phòng ban" : ViewBag.ViewMode == "view" ? "Thông tin phòng ban" : "Chỉnh sửa thông tin phòng ban";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.Record)" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                @display
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="departmentName">Tên phòng ban</label>
+                            <input id="departmentName" value="@(Model?.Name)" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" />
+                        </div>
+                    </div>
+                    @if (viewMode.Equals("view"))
+                    {
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian tạo</label>
+                                <input value="@(Model?.CreatedDate.ToString("dd-MM-yyyy"))" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (viewMode.Equals("view"))
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label >Người tạo</label>
+                                <input value="@(Model?.CreatorName)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <input value="@(Model?.StatusName)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

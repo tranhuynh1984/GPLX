@@ -1,0 +1,58 @@
+﻿@model GPLX.Core.DTO.Response.Groups.GroupsSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới chức vụ" : ViewBag.ViewMode == "view" ? "Thông tin chức vụ" : "Chỉnh sửa thông tin chức vụ";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.Record)" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                @display
+            </div>
+            <div class="card-body">
+                <form id="___createForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="groupName">Chức vụ</label>
+                                <input id="groupName" name="groupName" value="@(Model?.Name)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mã chức vụ</label> <i data-toggle="tooltip" title="Mã chức vụ không được phép trùng nhau, ký tự cho phép A-Z, a-z, 0-9 không bao gồm dấu cách" class="fad fa-question-square"></i>
+                                <input value="@(Model?.GroupCode)" id="groupCode" name="groupCode" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Thứ tự trong hệ thống</label> <i data-toggle="tooltip" title="Dùng để xác định vị trí của đối tượng trong luồng quy trình, các chức vụ cùng số thứ tự coi như ngang hàng nhau, thứ tự sẽ bắt đầu từ 0" class="fad fa-question-square"></i>
+                                <input type="number" name="order" value="@(Model?.Order)" id="order" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+                        @if (viewMode.Equals("view"))
+                        {
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Người tạo</label>
+                                    <input value="@(Model?.CreatorName)" class="form-control form-control-sm" disabled />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <input value="@(Model?.StatusName)" class="form-control form-control-sm" disabled />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+﻿@model IList<GPLX.Core.DTO.Response.CostStatus.CostStatusFollowResponse>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Đối tượng</label>
+                    <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="" data-original-title="Phân biệt luồng trạng thái giữa SUB và đơn vị thành viên"></i>
+                    <select class="form-control form-control-sm" id="selectSubject" name="selectSubject">
+                        <option value="">Chọn nhóm đơn vị</option>
+                        <option value="sub">SUB</option>
+                        <option value="unit">Đơn vị thành viên</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>Thời gian</label>
+                        <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="" data-original-title="Phân biệt trạng thái áp dụng cho dự trù tuần hay dự trù năm"></i>
+                        <select class="form-control form-control-sm" id="selectStatusForCostEstimateType" name="selectStatusForCostEstimateType">
+                            <option value="">Chọn nhóm thời gian</option>
+                            <option value="week">Tuần</option>
+                            <option value="year">Năm</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nhóm dữ liệu</label>
+                <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title=""
+                   data-original-title="Cùng một mã trạng thái nhưng sẽ áp dụng cho các nhóm dữ liệu khác nhau"></i>
+                <select class="form-control form-control-sm" id="selectTypes" name="selectTypes">
+                    <option value="">Chọn nhóm dữ liệu</option>
+                    <option value="request">Yêu cầu</option>
+                    <option value="estimate">Dự trù</option>
+                    <option value="actually">BC Thực chi</option>
+                    <option value="investment">Kế hoạch đầu tư</option>
+                    <option value="revenue">Kế hoạch doanh thu khách hàng</option>
+                    <option value="profit">Kế hoạch lợi nhuận</option>
+                    <option value="cashfollow">BC tổng hợp dòng tiền</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <p class="mb-2">
+            <i class="far fa-plus mr-1 align-middle text-info"></i>
+            <a class="align-middle text-info">
+                <u>Thêm trạng thái</u>
+            </a>
+        </p>
+        <section id="cd-timeline" class="cd-container">
+            @foreach (var t in Model)
+            {
+                <div class="cd-timeline-block">
+                    <div class="cd-timeline-img cd-picture">
+                    </div>
+
+                    <div class="cd-timeline-content">
+                        <button class="btn btn-sm btn-outline-success mb-2">
+                            <i class="fal fa-pencil"></i>
+                        </button>
+                        <div class="timeline-content-info">
+                            <span class="timeline-content-info-title">
+                                <i class="fa fa-brackets-curly" aria-hidden="true"></i>
+                                @t.CostStatuses.Name
+                            </span>
+                            <span class="timeline-content-info-date">
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                Thực hiện bởi: <span class="timeline-ops-value">@(t.Use?.Name ?? "Chưa cài đặt")</span>
+                            </span>
+                        </div>
+                        <div class="timeline-content-info mt-1">
+                            <span class="timeline-content-info-title">
+                                <i class="fal fa-arrows" aria-hidden="true"></i>
+                                Giá trị:  <span class="timeline-ops-value">
+                                    @t.CostStatuses.Value
+                                </span>
+                            </span>
+                            <span class="timeline-content-info-date">
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                Bước: <span class="timeline-ops-value">
+                                    @t.CostStatuses.Order
+                                </span>
+                            </span>
+                        </div>
+                        @if (t.CostStatuses.Singed || t.CostStatuses.IsApprove == 1)
+                        {
+                            <div class="timeline-content-info mt-1">
+                                @if (t.CostStatuses.IsApprove == 1)
+                                {
+                                    <span class="timeline-content-info-title">
+                                        Bước phê duyệt: <i class="fa fa-check ml-1" aria-hidden="true"></i>
+                                    </span>
+                                }
+                                @if (t.CostStatuses.Singed)
+                                {
+                                    <span class="timeline-content-info-date">
+                                        Bước ký số: <i class="fa fa-check ml-1" aria-hidden="true"></i>
+                                    </span>
+                                }
+                            </div>
+                        }
+                        <p>Danh sách chức vụ được xem</p>
+                        <ul class="content-skills">
+                            @foreach (var g in t.Groups)
+                            {
+                                <li>@($"{g.Name}")</li>
+                            }
+                        </ul>
+
+                    </div> <!-- cd-timeline-content -->
+                </div>
+            }
+        </section>
+    </div>
+</div>
+@*<div id="cd-nav">
+        <a href="#0" class="cd-nav-trigger">Menu<span> <i class="far fa-plus mr-1 align-middle text-info"></i></span></a>
+        <nav id="cd-main-nav">
+            <ul></ul>
+        </nav>
+    </div>*@
+@section bottom
+{
+    <link href="~/css/step.css" rel="stylesheet" />
+    <link href="~/css/dock.css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="~/js/status/workfollow.js"></script>
+}

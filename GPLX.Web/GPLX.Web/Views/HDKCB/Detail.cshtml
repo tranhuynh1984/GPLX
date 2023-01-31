@@ -1,0 +1,96 @@
+﻿@model GPLX.Core.DTO.Response.HDKCB.HDKCBDetailResponse
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.IDHD)" />
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">Thông tin hợp đồng</div>
+            <div class="card-body">
+                <form id="___createForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Mã HĐ</label>
+                                <input value="@(Model?.MaHD)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tên HĐ</label>
+                                <input value="@(Model?.TenHD)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Ngày ký</label>
+                                <input value="@(Model?.Ngay)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>IDHD</label>
+                                <input value="@(Model?.IDHD)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>TG bắt đầu</label>
+                                <input value="@(Model?.ND)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>TG kết thúc</label>
+                                <input value="@(Model?.NS)" class="form-control form-control-sm" disabled="@(viewMode.Equals("view"))"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <input value="@(Model?.IsActiveName)" class="form-control form-control-sm" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-size:1.5rem">Chi tiết dịch vụ hợp đồng KCB</span>
+                    <div style="width:200px; display:inline-block; float:right">
+                        <input type="text" class="form-control form-control-sm" placeholder="Tìm nhanh" id="txtSearchServicePopupInput" name="Keywords">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="tblServiceDetailList" class="table table-sm table-hover stripe table-bordered nowrap" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã DV</th>
+                                <th>Tên DV</th>
+                                <th>ĐVT</th>
+                                <th>Sử dụng</th>
+                                <th>Giá BV</th>
+                                <th>Giá ưu đãi</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="7">Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>

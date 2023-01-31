@@ -1,0 +1,152 @@
+﻿using GPLX.Core.Contracts;
+using GPLX.Core.Contracts.Actions;
+using GPLX.Core.Contracts.Actually;
+using GPLX.Core.Contracts.CashFollow;
+using GPLX.Core.Contracts.CostEstimate;
+using GPLX.Core.Contracts.CostEstimateItem;
+using GPLX.Core.Contracts.Dashboard;
+using GPLX.Core.Contracts.Department;
+using GPLX.Core.Contracts.Funtions;
+using GPLX.Core.Contracts.Groups;
+using GPLX.Core.Contracts.Investment;
+using GPLX.Core.Contracts.Notify;
+using GPLX.Core.Contracts.Payment;
+using GPLX.Core.Contracts.PdfLogs;
+using GPLX.Core.Contracts.Profit;
+using GPLX.Core.Contracts.Revenue;
+using GPLX.Core.Contracts.Statuses;
+using GPLX.Core.Contracts.Unit;
+using GPLX.Core.Contracts.User;
+using GPLX.Core.Contracts.DMPN;
+using GPLX.Core.Contracts.DMDV;
+using GPLX.Core.Contracts.DMHuyen;
+using GPLX.Core.Contracts.DM;
+using GPLX.Core.Contracts.DMBS_ChuyenKhoa;
+using GPLX.Core.Contracts.HDKCB;
+using GPLX.Core.Contracts.NhCP;
+using GPLX.Core.Contracts.LoaiDeXuat;
+using GPLX.Core.Contracts.Relationship;
+using GPLX.Core.Contracts.TBL_CTVGROUP;
+using GPLX.Core.Contracts.TBL_CTVGROUPSUB;
+using GPLX.Core.Contracts.TBL_CTVGROUPSUB1_DETAIL;
+using GPLX.Core.Contracts.TBL_CTVGROUPSUB2_DETAIL;
+using GPLX.Core.Contracts.ProfileCK;
+using GPLX.Core.Contracts.DeXuat;
+using GPLX.Core.Contracts.DeXuatChiTiet;
+using GPLX.Core.Data.Actions;
+using GPLX.Core.Data.Actually;
+using GPLX.Core.Data.CashFollow;
+using GPLX.Core.Data.CostEstimate;
+using GPLX.Core.Data.CostEstimateItem;
+using GPLX.Core.Data.Dashboard;
+using GPLX.Core.Data.Department;
+using GPLX.Core.Data.Function;
+using GPLX.Core.Data.Groups;
+using GPLX.Core.Data.InvestmentPlan;
+using GPLX.Core.Data.Notify;
+using GPLX.Core.Data.Payment;
+using GPLX.Core.Data.PdfLogsRepository;
+using GPLX.Core.Data.Profit;
+using GPLX.Core.Data.Revenue;
+using GPLX.Core.Data.Statuses;
+using GPLX.Core.Data.Supplier;
+using GPLX.Core.Data.Unit;
+using GPLX.Core.Data.DMPN;
+using GPLX.Core.Data.DMDV;
+using GPLX.Core.Data.DMHuyen;
+using GPLX.Core.Data.DM;
+using GPLX.Core.Data.DMBS_ChuyenKhoa;
+using GPLX.Core.Data.HDKCB;
+using GPLX.Core.Data.User;
+using GPLX.Infrastructure.Contracts;
+using GPLX.Web.Filters;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using GPLX.Core.Contracts.DMCP;
+using GPLX.Core.Data.DMCP;
+using GPLX.Core.Data.NhCP;
+using GPLX.Core.Data.LoaiDeXuat;
+using GPLX.Core.Data.Relationship;
+using GPLX.Core.Contracts.DMCTV;
+using GPLX.Core.Data.DMCTV;
+using GPLX.Core.Data.TBL_CTVGROUP;
+using GPLX.Core.Data.TBL_CTVGROUPSUB;
+using GPLX.Core.Data.TBL_CTVGROUPSUB1_DETAIL;
+using GPLX.Core.Data.TBL_CTVGROUPSUB2_DETAIL;
+using GPLX.Core.Data.ProfileCK;
+using GPLX.Core.Contracts.ProfileCKCP;
+using GPLX.Core.Data.ProfileCKCP;
+using GPLX.Core.Data.DeXuat;
+using GPLX.Core.Data.DeXuatChiTiet;
+using GPLX.Core.Data.DeXuatGhiChu;
+using GPLX.Core.Data.Process;
+using GPLX.Core.Contracts.Process;
+using GPLX.Core.Contracts.ProcessStep;
+using GPLX.Core.Data.ProcessStep;
+using GPLX.Core.Contracts.DeXuatGhiChu;
+using GPLX.Core.Data.DeXuatKhoaMaCTV;
+using GPLX.Core.Data.DeXuatLuanChuyenMa;
+using GPLX.Core.Contracts.DeXuatKhoaMaCTV;
+using GPLX.Core.Contracts.DeXuatLuanChuyenMa;
+using GPLX.Core.Contracts.GiaKCB;
+using GPLX.Core.Data.GiaKCB;
+
+namespace GPLX.Infrastructure.Installers
+{
+    public class RegisterContractMappings : IServiceRegistration
+    {
+        public void RegisterAppServices(IServiceCollection services, IConfiguration config)
+        {
+            services.AddScoped<ICostEstimateItemRepository, CostEstimateItemRepository>()
+                .AddScoped<IActionLogsRepository, ActionLogsRepository>()
+                .AddScoped<ISupplierRepository, SupplierRepository>()
+                .AddScoped<ICostStatusesRepository, CostStatusesRepository>()
+                .AddScoped<ICostEstimateItemLogsRepository, CostEstimateItemLogsRepository>()
+                .AddScoped<ICostEstimateRepository, CostEstimateRepository>()
+                .AddScoped<IActuallySpentRepository, ActuallySpentRepository>()
+                .AddScoped<ICostEstimateLogRepository, CostEstimateLogRepository>()
+                .AddScoped<ICashFollowRepository, CashFollowRepository>()
+                .AddScoped<IPaymentRepository, PaymentRepository>()
+                .AddScoped<IUnitRepository, UnitRepository>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IGroupsRepository, GroupsRepository>()
+                .AddScoped<ISecurityStampValidator, MedSecurityStampValidator>()
+                .AddScoped<IDepartmentRepository, DepartmentRepository>()
+                .AddScoped<IFunctionRepository, FunctionRepository>()
+                .AddScoped<IInvestmentPlanRepository, InvestmentPlanRepository>()
+                .AddScoped<IRevenuePlanRepository, RevenuePlanRepository>()
+                .AddScoped<IProfitPlanRepository, ProfitPlanRepository>()
+                .AddScoped<IPdfLogsRepository, PdfLogsRepository>()
+                .AddScoped<IDashboardRepository, DashboardRepository>()
+                .AddScoped<INotifyRepository, NotifyRepository>()
+                .AddScoped<IDMPNRepository, DMPNRepository>()
+                .AddScoped<IDMDVRepository, DMDVRepository>()
+                .AddScoped<IDMHuyenRepository, DMHuyenRepository>()
+                .AddScoped<IDMRepository, DMRepository>()
+                .AddScoped<IDMBS_ChuyenKhoaRepository, DMBS_ChuyenKhoaRepository>()
+                .AddScoped<IDMCPRepository, DMCPRepository>()
+                .AddScoped<IHDKCBRepository, HDKCBRepository>()
+                .AddScoped<INhCPRepository, NhCPRepository>()
+                .AddScoped<ILoaiDeXuatRepository, LoaiDeXuatRepository>()
+                .AddScoped<IRelationshipRepository, RelationshipRepository>()
+                .AddScoped<ITBL_CTVGROUPRepository, TBL_CTVGROUPRepository>()
+                .AddScoped<IDMCTVRepository, DMCTVRepository>()
+                .AddScoped<ITBL_CTVGROUPRepository, TBL_CTVGROUPRepository>()
+                .AddScoped<ITBL_CTVGROUPSUBRepository, TBL_CTVGROUPSUBRepository>()
+                .AddScoped<ITBL_CTVGROUPSUB1_DETAILRepository, TBL_CTVGROUPSUB1_DETAILRepository>()
+                .AddScoped<ITBL_CTVGROUPSUB2_DETAILRepository, TBL_CTVGROUPSUB2_DETAILRepository>()
+                .AddScoped<IProfileCKRepository, ProfileCKRepository>()
+                .AddScoped<IProfileCKCPRepository, ProfileCKCPRepository>()
+                .AddScoped<IDeXuatRepository, DeXuatRepository>()
+                .AddScoped<IDeXuatChiTietRepository, DeXuatChiTietRepository>()
+                .AddScoped<IDeXuatKhoaMaCTVRepository, DeXuatKhoaMaCTVRepository>()
+                .AddScoped<IDeXuatLuanChuyenMaRepository, DeXuatLuanChuyenMaRepository>()
+                .AddScoped<IDeXuatGhiChuRepository, DeXuatGhiChuRepository>()
+                .AddScoped<IProcessRepository, ProcessRepository>()
+                .AddScoped<IProcessStepRepository, ProcessStepRepository>()
+                .AddScoped<IGiaKCBRepository, GiaKCBRepository>()
+                ;
+        }
+    }
+}

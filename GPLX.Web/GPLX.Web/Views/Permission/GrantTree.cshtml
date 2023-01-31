@@ -1,0 +1,34 @@
+﻿@using GPLX.Database.Models;
+@{
+    var oGroup = ViewBag.oGroup as Groups;
+}
+<input type="hidden" id="___record" value="@ViewBag.Id"/>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Phân quyền chức năng</h3><br />
+            <p class="card-title">Chức vụ: <b>@oGroup?.Name</b></p>
+        </div>
+        <div class="card-body">
+            <div id="permission"></div>
+        </div>
+        <div class="card-footer text-right">
+            <button type="button" class="btn btn-sm med-btn-outline-primary" id="save">
+                <i class="fad fa-save"></i> Lưu lại
+            </button>
+            <button type="button" class="btn btn-sm med-btn-outline-primary" data-back="true">
+                Quay lại
+            </button>
+        </div>
+    </div>
+</div>
+
+@section bottom
+{
+    <link href="~/css/gijgo.min.css" rel="stylesheet" />
+}
+@section scripts
+{
+    <script src="~/js/extends/gijgo.min.js"></script>
+    <script src="~/js/permission/grant.js"></script>
+}

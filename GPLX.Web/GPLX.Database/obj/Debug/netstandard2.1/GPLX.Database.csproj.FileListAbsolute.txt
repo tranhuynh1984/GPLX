@@ -1,0 +1,10 @@
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\bin\Debug\netstandard2.1\GPLX.Database.deps.json
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\bin\Debug\netstandard2.1\GPLX.Database.dll
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\bin\Debug\netstandard2.1\GPLX.Database.pdb
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.csproj.AssemblyReference.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.AssemblyInfoInputs.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.AssemblyInfo.cs
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.csproj.CoreCompileInputs.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.dll
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Database\obj\Debug\netstandard2.1\GPLX.Database.pdb

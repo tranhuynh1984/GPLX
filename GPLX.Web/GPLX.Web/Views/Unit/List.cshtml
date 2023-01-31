@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Danh sách đơn vị";
+    ViewData["PageTitle"] = "Danh sách đơn vị";
+}
+@model CostEstimateItemListModel
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between" id="requestSearchForm">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label>Từ khóa:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Nhập từ khóa để tìm kiếm" id="requestSearchKeywords" name="Keywords">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-sm btn-default" type="button" id="requestSearchButton">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-sm med-btn-outline-primary" id="btnSync">
+                    <i class="fad fa-plus-circle"></i> Đồng bộ dữ liệu
+                </button>
+            </div>
+            <div class="card-body">
+                <table id="tblList" class="table table-sm table-hover stripe table-bordered nowrap" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên đơn vị</th>
+                            <th>Mã đơn vị</th>
+                            <th>Nhóm đơn vị</th>
+                            <th>Người tạo</th>
+                            <th>Ngày tạo</th>
+                            @*<th>Thao tác</th>*@
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="~/Views/Partial/_OverlayModal.cshtml" />
+
+@section top {
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.rowReorder.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script src="~/js/uri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/unit/list.js"></script>
+}

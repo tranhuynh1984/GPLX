@@ -1,0 +1,129 @@
+﻿@model GPLX.Core.DTO.Response.DMBS_ChuyenKhoa.DMBS_ChuyenKhoaSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới chuyên khoa" : ViewBag.ViewMode == "view" ? "Thông tin chuyên khoa" : "Chỉnh sửa thông tin chuyên khoa";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.Ma)" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                
+                @if (viewMode.Equals("view"))
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmmachuyenkhoa">Mã chuyên khoa</label>
+                                <input id="txtmachuyenkhoa" value="@(Model?.Ma)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmtenchuyenkhoa">Tên Loại Đề Xuất</label>
+                                <input id="txttenchuyenkhoa" value="@(Model?.Ten)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatuschuyenkhoa" disabled>
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian tạo</label>
+                                <input class="form-control form-control-sm" value='@(Model?.Createdate.ToString("dd/MM/yyyy HH:mm"))' disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Stt)" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian sửa</label>
+                                <input class="form-control form-control-sm" value='@(Model?.Updatedate?.ToString("dd/MM/yyyy HH:mm"))' disabled />
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmmaloaidexuat">Mã chuyên khoa</label><label class="labelrequired">*</label>
+                                @if(String.IsNullOrEmpty(Model?.Ma))
+                                {
+                                    <input id="txtmachuyenkhoa" value="" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                                else
+                                {
+                                    <input id="txtmachuyenkhoa" value="@(Model?.Ma)" readonly="readonly"  class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dmtenchuyenkhoa">Tên chuyên khoa</label><label class="labelrequired">*</label>
+                                <input id="txttenchuyenkhoa" value="@(Model?.Ten)" class="form-control form-control-sm" maxlength="200"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatuschuyenkhoa">
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label><label class="labelrequired">*</label>
+                                <input id="txtstt" value="@(Model?.Ma == null ? Model?.MaxStt : Model?.Stt)" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" type="text" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" maxlength="4"/>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#txtmachuyenkhoa").change(function () {
+        $("#txtmachuyenkhoa").removeClass('itemerror');
+    });
+    $("#txttenchuyenkhoa").change(function () {
+        $("#txttenchuyenkhoa").removeClass('itemerror');
+    });
+</script>

@@ -1,0 +1,19 @@
+﻿@model GPLX.Web.Models.Users.UserConcurrentlyModel
+@if (Model != null && Model.AnyConcurrently)
+{
+    <li class="nav-item">
+        <div class="form-group">
+            <div class="spinner-border spinner-border-sm mt-2 d-none" role="status" style=" vertical-align: bottom;">
+                <span class="sr-only"></span>
+            </div>
+            <i class="far fa-university" style="float: left;vertical-align: bottom; font-size: 19px; line-height: calc(2.25rem + 2px);" title="Chuyển đơn vị"></i>
+            <select id="swichingUnit" class="custom-select form-control-border form-control-sm d-inline-block"
+                    style="float: left; width: auto; vertical-align: middle">
+                @foreach (var c in Model.UserConcurrently)
+                {
+                    <option value="@(c.UnitCode)" selected="@c.Selected">@($"{c.UnitName}")</option>
+                }
+            </select>
+        </div>
+    </li>
+}

@@ -1,0 +1,90 @@
+﻿@model IList<MenuBuilder>
+@functions
+{
+    string _writeIdentify(string module)
+    {
+        if (!string.IsNullOrEmpty(module))
+            return $"identifier={module}";
+        return null;
+    }
+}
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+    @foreach (var m in Model)
+    {
+        if (!string.IsNullOrEmpty(m.Parent.Url))
+        {
+            <li class="nav-item" @(_writeIdentify(m.Parent.Module)) specifer="@m.Parent.Id" style="display:@(!string.IsNullOrEmpty(m.Parent.Module)? "none": "block")">
+                <a href="@m.Parent.Url" class="nav-link">
+                    <i class="nav-icon @(m.Parent.IconClass)"></i>
+                    <p>@m.Parent.Name</p>
+                </a>
+            </li>
+        }
+        else
+        {
+            if (m.ChildFunctions.Count == 0)
+            {
+                <li class="nav-header">@m.Parent.Name</li>
+            }
+            else
+            {
+                <li class="nav-item" @(_writeIdentify(m.Parent.Module)) specifer="@m.Parent.Id" style="display: @(!string.IsNullOrEmpty(m.Parent.Module)? "none": "block")">
+                    <a href="javascript: void(0);" class="nav-link without">
+                        <i class="nav-icon @(m.Parent.IconClass)"></i>
+                        <p>
+                            @m.Parent.Name
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" id="parentId" >
+                        @foreach (var mChildFunction in m.ChildFunctions)
+                        {
+                            @await Component.InvokeAsync("SubMenu", mChildFunction)
+                        }
+                    </ul>
+                </li>
+            }
+        }
+    }
+     
+    <li class="nav-item" identifier="GENERAL" specifer="44" style="">
+        <a href="/QLDM/Index" class="nav-link">
+            <i class="nav-icon fad fa-home"></i>
+            <p>Quản lý danh mục</p>
+        </a>
+    </li>
+    <li class="nav-item" identifier="GENERAL" specifer="44" style="">
+        <a href="/DMCTV/List" class="nav-link">
+            <i class="nav-icon fad fa-home"></i>
+            <p>Danh mục CTV</p>
+        </a>
+    </li>
+     <li class="nav-item" identifier="GENERAL" specifer="35" style="">
+        <a href="/DeXuat/List" class="nav-link without">
+            <i class="nav-icon fad fa-house-user"></i>
+            <p>
+                Quản lý đề xuất
+                <i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a href="#" class="nav-link without">
+            <i class="fad fa-sign-out"></i>
+            <p>Version: @System.DateTime.Now.ToString("dd/MM/yyyy")</p>
+        </a>
+    </li>
+
+    @if ((bool)ViewBag.Loged)
+    {
+        <li class="nav-item">
+            <a href="/Account/Logout" class="nav-link without" onclick="costJsBase.onSignout();">
+                <i class="fad fa-sign-out"></i>
+                <p>Đăng xuất</p>
+            </a>
+        </li>
+    }
+</ul>

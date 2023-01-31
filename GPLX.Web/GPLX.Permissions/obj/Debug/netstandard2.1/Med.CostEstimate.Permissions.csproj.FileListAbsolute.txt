@@ -1,0 +1,13 @@
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.deps.json
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.dll
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.pdb
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Database.dll
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Database.pdb
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.AssemblyReference.cache
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.GeneratedMSBuildEditorConfig.editorconfig
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.AssemblyInfoInputs.cache
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.AssemblyInfo.cs
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.CoreCompileInputs.cache
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.CopyComplete
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.dll
+D:\MEDCOM\Code\webdttc\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.pdb

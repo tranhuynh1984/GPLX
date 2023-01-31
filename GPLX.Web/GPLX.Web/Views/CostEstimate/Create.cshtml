@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "Tạo mới danh sách yêu cầu";
+    ViewData["PageTitle"] = "Tạo mới danh sách yêu cầu";
+}
+@model CostEstimateCreateModel
+<input type="hidden" id="___requestFormRequestType" value="@Model.RequestType"/>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                @if (Model.EnableCreate)
+                {
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <div class="card-tools float-right mb-2">
+                                <div class="input-group input-group-sm">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-truncate align-middle d-none mr-2" id="labelFileSelect"></span>
+                                        <button class="btn btn-sm btn-default d-none mr-2" type="button" id="btnStartUpload">
+                                            <i class="fas fa-arrow-circle-up mr-1"></i> <span>Tải lên</span>
+                                        </button>
+
+                                        <button type="button" id="btnSelectContractFile" class="btn btn-sm btn-outline-primary mr-2" title="Nhập tài liệu chứng từ">
+                                            <i class="fas fa-paperclip"></i>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-success mr-2" type="button" id="btnSelectExcelFile" title="Nhập dữ liệu từ excel">
+                                            <i class="fas fa-file-excel"></i>
+                                        </button>
+
+                                        <a class="btn btn-sm btn-outline-primary mr-2" href="/CostEstimateItem/DownloadTemplate?opts=xlsx;kt" title="Tải tệp excel mẫu">
+                                            <i class="fas fa-file-download"></i>
+                                        </a>
+                                        <i class="fas fa-question-circle" data-html="true" title="Nhập tài liệu chứng từ: <br/>Hỗ trợ nhập chứng từ theo lô, các tệp chứng từ sẽ được nén chung vào một tệp nén định dạng .zip <br />Tên tệp tương tự với mã các mã dự trù trên danh sách."
+                                           data-toggle="tooltip"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-none">
+                        <div class="col-md-12 text-right">
+                            <div class="d-flex align-items-center float-right">
+                                <div class="form-check mr-2">
+                                    <input class="form-check-input" type="checkbox" id="checkClearTable" checked="">
+                                    <label class="form-check-label" for="checkClearTable">Không xóa dữ liệu cũ</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-bordered display nowrap" id="createCostEstimateUploadTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+
+                            <th position="1" scope="col" class="align-top">Mã dự trù</th>
+                            <th position="2" scope="col" class="align-top">Nội dung</th>
+                            <th position="3" scope="col" class="align-top">Tổng số tiền</th>
+                            <th position="4" scope="col" class="align-top">Đơn vị</th>
+                            <th position="5" scope="col" class="align-top">Bộ phận</th>
+                            <th position="6" scope="col" class="align-top">Người đề xuất</th>
+                            <th position="7" scope="col" class="align-top">Thời gian đề xuất</th>
+                            <th position="8" scope="col" class="align-top">NCC</th>
+                            <th position="9" scope="col" class="align-top">Số hóa đơn /phiếu thu </th>
+                            <th position="10" scope="col" class="align-top">Ngày hóa đơn</th>
+                            <th position="11" scope="col" class="align-top">Giá trị hóa đơn</th>
+                            <th position="12" scope="col" class="align-top">Hình thức chi</th>
+                            <th position="13" scope="col" class="align-top">Nhóm chi phí</th>
+                            <th position="14" scope="col" class="align-top">Nhóm dự trù</th>
+                            <th position="15" scope="col" class="align-top">Link ảnh chứng từ</th>
+                            <th position="16" scope="col" class="align-top">Giải trình (đối với khoản không có biên lai/hóa đơn)</th>
+                            <th position="17" scope="col" class="align-top">Người tạo phiếu</th>
+                            @if (Model.EnableCreate)
+                            {
+                                <th position="18" scope="col" class="align-top">Thao tác</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (Model.EnableCreate)
+        {
+            <div class="card d-none" id="boxExcelErrors">
+                <div class="card-body">
+                    <p id="errorCollapse" class="collapse" aria-expanded="false">
+                    </p>
+                    <a class="collapsed" data-toggle="collapse" href="#errorCollapse" aria-expanded="false" aria-controls="errorCollapse"></a>
+                </div>
+            </div>
+        }
+
+
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-12 text-right">
+                    @if (Model.EnableCreate)
+                    {
+                        <input type="file" class="d-none" id="costEstimateExcelFile" accept=".xlsx" />
+                        <button class="btn btn-sm med-btn-outline-primary" type="button" id="btnCreate">
+                            <i class="fad fa-save mr-2"></i> Lưu lại
+                        </button>
+                        <button class="btn btn-sm med-btn-outline-primary" type="button" data-back="true">
+                           Quay lại
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section top {
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/js/cost/create.js"></script>
+}

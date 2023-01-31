@@ -1,0 +1,13 @@
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.deps.json
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.dll
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Permissions.pdb
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Database.dll
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\bin\Debug\netstandard2.1\GPLX.Database.pdb
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.AssemblyReference.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.AssemblyInfoInputs.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.AssemblyInfo.cs
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.CoreCompileInputs.cache
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.csproj.CopyComplete
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.dll
+D:\Dev\GPLX\GPLX\GPLX.Web\GPLX.Permissions\obj\Debug\netstandard2.1\GPLX.Permissions.pdb

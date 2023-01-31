@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+</head>
+<style>
+    html { 
+        font-family:Arial,helvetica,sans-serif;
+        font-size:100%;
+    }
+    body { 
+        font-size:1em;
+        font-family:inherit;
+    } 
+    *,:before,:after {
+        font-family:inherit;
+    }
+    .default-table {
+        width: 100%;
+        color: #333;
+        border: 1px solid grey;
+        border-collapse: collapse;
+    }
+    .default-table thead th,
+    .default-table caption {
+        padding:.5em;
+    }
+    .default-table th,
+    .default-table td {
+        padding: .5em;
+        border: 1px solid lightgrey;
+    }
+    .text-center {
+        text-align: center;
+    }
+    
+    #page-header {
+        width: 100%;
+    }
+    #page-header td {
+        width: 50%;
+    }
+    #page-title {
+        font-weight: 700; 
+        text-align: center;
+        font-size: 18px;
+    }
+    #page-content {
+        font-size: 14px;
+    }
+    .signature-image {
+        height: 50px;
+    }
+    .signature-name {
+        font-weight: 700;
+    }
+</style>
+
+<body>
+    <div id="page-header" class="text-center">
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <p>{{CompanyName}}</p>
+                        <p>Số {{DeXuatNumber}}</p>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                        <p>Độc lập - Tự do - Hạnh phúc</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="page-title">
+        <p>ĐỀ XUẤT CHUYỂN ĐƠN VỊ QUẢN LÝ CÔNG TÁC VIÊN BÁC SĨ</p>
+    </div>
+    <div id="page-content" style="font-size: 14px">
+        <p>Kính gửi: {{SentToUsers}}</p>
+        <p>{{CompanyName}} đề xuất chuyển đơn vị quản lý mã CTV với thông tin như sau:</p>
+        
+        <table class="default-table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã CTV</th>
+                    <th>Tên CTV</th>
+                    <th>Đơn vị đang quản lý</th>
+                    <th>Đơn vị quản lý mới</th>
+                    <th>Thời gian bắt đầu chuyển</th>
+                    <th>Lý do</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for deXuat in DsDeXuat %}
+                <tr>
+                    <td>{{deXuat.Stt}}</td>
+                    <td>{{deXuat.MaBacSi}}</td>
+                    <td>{{deXuat.TenBacSi}}</td>
+                    <td>{{deXuat.DonViCu}}</td>
+                    <td>{{deXuat.DonViMoi}}</td>
+                    <td>{{deXuat.ThoiGianKhoa}}</td>
+                    <td>{{deXuat.LyDoKhoa}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p>Kính trình {{SubmitToUsers}} phê duyệt đề xuất chuyển đơn vị quản lý cộng tác viên bác sĩ.</p>
+        {% for approveUser in ApprovedUsers %}
+            <div>
+                <p>Ý kiến của {{approveUser.Role}}</p>
+                <p>Vào lúc {{approveUser.ApprovedTime}}</p>
+                <div>
+                    <div class="signature-image"> 
+                        <img src="{{approveUser.SignatureImage}}" alt="{{approveUser.SignatureName}}"/>
+                    </div>
+                    <div class="signature-name"> 
+                        {{approveUser.SignatureName}} 
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

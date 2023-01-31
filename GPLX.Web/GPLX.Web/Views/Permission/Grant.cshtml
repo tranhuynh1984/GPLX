@@ -1,0 +1,78 @@
+﻿@using GPLX.Database.Models;
+@{
+    var funcs = (List<Functions>)ViewBag.Funcs;
+    var pers = (List<GroupsPermission>)ViewBag.Per;
+    var oGroup = ViewBag.oGroup as Groups;
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Phân quyền chức năng</h3><br/>
+            <p class="card-title">Chức vụ: <b>@oGroup?.Name</b></p>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Chức năng</th>
+                        <th colspan="5">Quyền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in funcs)
+                    {
+                        <tr class="function_row" function-id="@item.Id">
+                            <td unique="@item.Unique">@item.Name</td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="customCheckbox2_@item.Unique" value="2" @(pers.Any(a => a.FunctionId == item.Id && ((a.Permission & 2) == 2)) ? "checked" : "")>
+                                    <label for="customCheckbox2_@item.Unique" class="custom-control-label">Xem</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="customCheckbox4_@item.Unique" value="4" @(pers.Any(a => a.FunctionId == item.Id && ((a.Permission & 4) == 4)) ? "checked" : "")>
+                                    <label for="customCheckbox4_@item.Unique" class="custom-control-label">Duyệt</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="customCheckbox8_@item.Unique" value="8" @(pers.Any(a => a.FunctionId == item.Id && ((a.Permission & 8) == 8)) ? "checked" : "")>
+                                    <label for="customCheckbox8_@item.Unique" class="custom-control-label">Thêm</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="customCheckbox16_@item.Unique" value="16" @(pers.Any(a => a.FunctionId == item.Id && ((a.Permission & 16) == 16)) ? "checked" : "")>
+                                    <label for="customCheckbox16_@item.Unique" class="custom-control-label">Sửa</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="customCheckbox32_@item.Unique" value="32" @(pers.Any(a => a.FunctionId == item.Id && ((a.Permission & 32) == 32)) ? "checked" : "")>
+                                    <label for="customCheckbox32_@item.Unique" class="custom-control-label">Xóa</label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="hidden" value="@ViewBag.Id" id="group_id" />
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer text-right">
+            <button type="button" class="btn btn-sm med-btn-outline-primary" id="save">
+                <i class="fad fa-save"></i> Lưu lại
+            </button>
+            <button type="button" class="btn btn-sm med-btn-outline-primary" data-back="true">
+                Quay lại
+            </button>
+        </div>
+    </div>
+    <!-- /.card -->
+</div>
+@section scripts
+{
+    <script src="~/js/permission/permission.js"></script>
+}

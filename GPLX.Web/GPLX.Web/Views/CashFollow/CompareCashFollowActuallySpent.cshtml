@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "So sánh ngân sách - thực chi";
+    ViewData["PageTitle"] = "So sánh ngân sách - thực chi";
+}
+@model CompareCFAndActuallyModel
+<input type="hidden" id="___cashFollowRecord" value="@(Model.Record)" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div id="sla-data-range" class="mrp-container">
+                                    <div class="form-group">
+                                        <label>Chọn thời gian</label>
+                                        <div>
+                                            <span class="mrp-icon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <div class="mrp-monthdisplay">
+                                                <span class="mrp-lowerMonth">@($"T1 {DateTime.Now.Year}")</span>
+                                                <span class="mrp-to"> đến </span>
+                                                <span class="mrp-upperMonth">@($"T{DateTime.Now.Month} {DateTime.Now.Year}")</span>
+                                            </div>
+                                            <input type="hidden" value="@($"{DateTime.Now.Year}01")" id="mrp-lowerDate" />
+                                            <input type="hidden" value="@($"{DateTime.Now.Year}{DateTime.Now.Month}")" id="mrp-upperDate" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary btn-ouline-color" id="comparing">
+                                        <i class="fad fa-analytics mr-1"></i> So sánh
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.Data != null)
+                    {
+                        <div class="col-md-3">
+                            <dl>
+                                <dt>Đơn vị</dt>
+                                <dd>@(Model.Data.UnitName)</dd>
+
+                            </dl>
+                        </div>
+                        <div class="col-md-3">
+                            <dl>
+                                <dt>Năm lập báo cáo</dt>
+                                <dd>@(Model.Data.Year)</dd>
+                            </dl>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-4 ml-auto">
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="table_search" id="__inputTableSearch" class="form-control float-right" placeholder="Nhập nội dung để tìm kiếm">
+                                <div class="input-group-append"> 
+                                    <button type="button" class="btn btn-default" id="__btnTableSearch">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-bordered display nowrap" id="comparingTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th position="0" scope="col" class="align-top">#</th>
+                            <th position="1" scope="col" class="align-top">Nội dung</th>
+                            <th position="2" scope="col" class="align-top">Ngân sách lũy kế</th>
+                            <th position="3" scope="col" class="align-top">Thực chi lũy kế</th>
+                            <th position="4" scope="col" class="align-top">Số tiền vượt ngân sách</th>
+                            <th position="5" scope="col" class="align-top">Tỷ lệ chi/thu - Ngân sách</th>
+                            <th position="6" scope="col" class="align-top">Tỷ lệ chi/thu - Thực tế</th>
+                            <th position="7" scope="col" class="align-top">Phân loại</th>
+                            <th position="8" scope="col" class="align-top">Tỷ lệ chi vượt ngân sách</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section middle_scripts
+{
+    <script src="~/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.scroller.min.js"></script>
+}
+@section top
+{
+    <link rel="stylesheet" href="~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/month.range.picker.css" rel="stylesheet" />
+}
+@section scripts
+{
+    <script>
+        var startMonth = 1;
+        var startYear = @(DateTime.Now.Year);
+        var endMonth = @(DateTime.Now.Month);
+        var endYear =  @(DateTime.Now.Year);
+    </script>
+    @if (string.IsNullOrEmpty(Model.Record))
+    {
+        <script type="text/javascript">
+            costJsBase.EventNotify('error', 'Không tìm thấy dữ liệu kế hoạch dòng tiền!');
+        </script>
+    }
+    <script src="~/js/month.range.picker.js"></script>
+    <script src="~/js/cashfollow/compare.js"></script>
+}

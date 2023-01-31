@@ -1,0 +1,51 @@
+﻿@model IList<GPLX.Core.DTO.Response.CostEstimateItem.CostEstimateItemLogResponse>
+
+<div class="row" id="viewHistories">
+    <div class="col-12 col-sm-12">
+        @{
+            if (Model.Count > 0)
+            {
+                <div class="col-md-12 text-right mb-2">
+                    <a class="badge badge-success p-2 fs-90" href="#" onclick="costJsBase.HistoriesFilter('all');">
+                        Tất cả
+                    </a>
+                    <a class="badge badge-success p-2 fs-90" href="#" onclick="costJsBase.HistoriesFilter('approval');">
+                        <i class="fad fa-check mr-1"></i> Đã duyệt
+                    </a>
+                    <a class="badge badge-danger p-2 fs-90" href="#" onclick="costJsBase.HistoriesFilter('decline');">
+                        <i class="fad fa-times mr-1"></i> Từ chối
+                    </a>
+                </div>
+
+                foreach (var costEstimateItemLogResponse in Model)
+                {
+                    <div class="timeline" prop-stats="@(string.IsNullOrEmpty(costEstimateItemLogResponse.Reason) ? "approval": "decline")">
+                        <div>
+                            @* todo: can display avatar's customer *@
+                            @*<i class="fas fa-envelope bg-blue"></i>*@
+                            <div class="timeline-item">
+                                <span class="time" style="font-size: 0.9rem"><i class="fas fa-clock"></i> @(costEstimateItemLogResponse.TimeChange)</span>
+                                <h3 class="timeline-header"><a class="blue-color" onclick="javascript: void (0);">@(costEstimateItemLogResponse.UserName)</a></h3>
+                                <div class="timeline-body">
+                                    <b class="blue-color font-weight-bold">Người duyệt:</b> @(costEstimateItemLogResponse.UserName) <br />
+                                    <b class="blue-color font-italic">Chức vụ:</b> @(costEstimateItemLogResponse.PositionName) <br />
+                                    <b class="blue-color font-italic">Trạng thái:</b> <span class="@(string.IsNullOrEmpty(costEstimateItemLogResponse.Reason) ? "text-success": "text-danger")">@(costEstimateItemLogResponse.Status)</span> <br />
+
+                                    @if (!string.IsNullOrEmpty(costEstimateItemLogResponse.Reason))
+                                    {
+                                        <b>Lý do:</b><br />
+                                        @(costEstimateItemLogResponse.Reason)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        <p class="text-center"
+           style="display: @(Model.Count > 0 ? "none" : "block")">
+            Yêu cầu chưa có dữ liệu lịch sử!
+        </p>
+    </div>
+</div>

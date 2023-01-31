@@ -1,0 +1,79 @@
+﻿@{
+    //var wInYear = DateTime.Now.Year.WeekInYear();
+    //wInYear = !string.IsNullOrEmpty(Model.Record) ? wInYear.Where(c => c.weekNum >= Model.ReportForWeek).ToList() : wInYear.Where(c => c.weekStart >= DateTime.Now).ToList();
+}
+
+@model CostEstimateCreateModel
+<div class="row">
+    @*<div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="selectReportForWeek">Thời gian dự trù <span class="required">*</span></label>
+                                @Html.DropDownList("selectReportForWeek", wInYear
+                                    .Select(a => new SelectListItem
+                                    {
+                                        Value = a.weekNum.ToString(),
+                                        Text = $"Tuần {a.weekNum} ({a.weekStart:dd/MM/yy} - {a.weekFinish:dd/MM/yy})",
+                                        Selected = Model.ReportForWeek > 0 && a.weekNum == Model.ReportForWeek
+                                        /*Selected = Model.ReportForWeek == a.weekNum*/
+                                    }).ToList(), "-- Thời gian dự trù --",
+                                        new { @class = "form-control form-control-sm form-control-border" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <input type="text" name="table_search" id="requestSearchKeywords" class="form-control float-right" placeholder="Nội dung/mã dự trù">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-default" id="btnSearching">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-bordered display nowrap" id="chiefApprove" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th position="0" scope="col" class="align-top" style="width: 30px"></th>
+                            <th position="1" scope="col" class="align-top">
+                                <div class="form-check">
+                                    <input class="form-check-input position-static" id="ckcAll" type="checkbox" aria-label="...">
+                                </div>
+                            </th>
+                            <th position="2" scope="col" class="align-top">Mã dự trù</th>
+                            <th position="3" scope="col" class="align-top">Nội dung</th>
+                            <th position="4" scope="col" class="align-top">Tổng số tiền</th>
+                            <th position="5" scope="col" class="align-top">Đơn vị</th>
+                            <th position="6" scope="col" class="align-top">Bộ phận</th>
+                            <th position="7" scope="col" class="align-top">Người đề xuất</th>
+                            <th position="8" scope="col" class="align-top">Thời gian đề xuất</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/js/dataTables.fixedColumns.min.js"></script>
+<script src="~/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<script src="~/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+
+<script src="~/node_modules/admin-lte/plugins/select2/js/select2.full.min.js"></script>

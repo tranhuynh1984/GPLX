@@ -1,0 +1,139 @@
+﻿@using GPLX.Web.Models.Dashboard
+@{
+    ViewData["Title"] = "Đề xuất mở mã cộng tác viên";
+    ViewData["PageTitle"] = "Đề xuất mở mã cộng tác viên"; 
+}
+
+@model DeXuatTaoMaFilterModel
+<div class="row">
+    <input type="hidden" id="hddmaProfileCK" value="" />
+    <input type="hidden" id="hddIDRole" value="@Model.IDRole" />
+    <input type="hidden" id="hddLoaiDeXuatCode" value="DeXuatMoMa" />
+    <input type="hidden" id="hddProcessId" value="@Model.ProcessId" />
+    <input type="hidden" id="___record" value="@Model.MaDeXuat" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="txtmadexuat">Mã ĐX</label><label class="labelrequired">*</label>
+                            <input id="txtmadexuat" placeholder="Nhập mã đề xuất" value="@Model.MaDeXuat" class="form-control form-control-sm" maxlength="20" disabled='@(Model.MaDeXuat != "")'/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="txttendexuat">Tên ĐX</label><label class="labelrequired">*</label>
+                            <input id="txttendexuat" placeholder="Nhập tên đề xuất" value="@Model.DeXuatSearchResponseData?.DeXuatName"  class="form-control form-control-sm" maxlength="200" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Mã CTV:</label><label class="labelrequired">*</label>
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" id="lblCTV" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")">
+                                    <option value="-1" TagName="">Chọn CTV</option>
+                                    @foreach(var item in Model.DMCTVSearchResponse.Data)
+                                    {
+                                        if(@Model.DeXuatSearchResponseData.MaBacsi.Equals(item.MaBS))
+                                        {
+                                            <option value="@item.MaBS" TagName="@item.TenBS" selected="selected">@item.MaBS - @item.TenBS</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.MaBS" TagName="@item.TenBS">@item.MaBS - @item.TenBS</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="txttenCTV">Tên CTV</label>
+                            <input id="txttenCTV" value="@Model.DeXuatSearchResponseData.TenBacsi" disabled  class="form-control form-control-sm" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Thời gian mở:</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control form-control-sm" placeholder="Thời gian khóa" id="txtThoiGianKhoa" name="Keywords" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")" value='@Model.DeXuatSearchResponseData.ThoiGianKhoa?.ToString("yyyy-MM-dd")'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Ghi chú khóa:</label>
+                            <div class="input-group"  style="height:100%">
+                                <textarea class="form-control" rows="7" id="txtGhiChu" placeholder="Nhập ghi chú khóa" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")">@Model.DeXuatSearchResponseData?.Note</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnSaveDX" style="min-width:150px" disabled="@((Model.IDRole != 1 && Model.MaDeXuat != "") || Model.Permission == -1 || (Model.DeXuatSearchResponseData != null && Model.IDRole < Model.DeXuatSearchResponseData.ProcessStepId))"><i class="fad fa-plus-circle" ></i>Lưu</button>
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnPush" style="min-width:150px" disabled="@(Model.Permission == 2 || Model.Permission == -1 || Model.MaDeXuat == "")"><i class="fad fa-plus-circle" ></i>Đẩy</button>
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnReject" style="min-width:150px" disabled="@(Model.Permission == 0 ||Model.Permission == 2 || Model.Permission == -1 || Model.MaDeXuat == "")"><i class="fad fa-plus-circle" ></i>Hủy</button>
+                            
+                            <button class="btn btn-sm btn btn-default" id="btnBack" style="min-width:150px"><i class="fad"></i>Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="~/Views/Partial/_OverlayModal.cshtml" />
+
+@section top {
+    <link href="~/css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2.min.css" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.rowReorder.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script src="~/js/uri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/select2.min.js"></script>
+    <script type="text/javascript" src="~/js/DeXuat/createdexuatmomactv.js"></script>
+}
+<style type="text/css">
+    .modal-dialog{
+        max-width: 90%!important;
+        min-height: 800px!important;
+    }
+</style>
+
+<style type="text/css">
+    .select2-container--default {
+        font-size: 100%!important;
+    }
+</style>

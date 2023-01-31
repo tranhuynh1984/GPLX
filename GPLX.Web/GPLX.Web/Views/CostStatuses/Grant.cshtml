@@ -1,0 +1,43 @@
+﻿@using GPLX.Database.Models
+@model IList<GPLX.Database.Models.Groups>
+@{
+    var listGranted = ViewBag.Granted as List<Groups> ?? new List<Groups>();
+    var used = ViewBag.Used as Groups ?? new Groups();
+}
+<input id="___record" type="hidden" value="@ViewBag.Record"/>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title text-info">@ViewBag.Name</div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Chức vụ - dữ liệu</label>
+                    <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Các thành viên thuộc một trong các chức vụ có thể nhìn thấy dữ liệu ở trạng thái này!"></i>
+                    <select id="grantGroups" multiple="multiple" class="form-control form-control-sm">
+                        @foreach (var groups in Model)
+                        {
+                            <option selected="@(listGranted.Any(x => x.Id == groups.Id))" value="@groups.GroupCode">@($"[{groups.GroupCode}] - {groups.Name}")</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Thực hiện bởi</label>
+                    <i class="fad fa-question-square" data-toggle="tooltip" data-placement="top" title="Thành viên được gán với chức vụ có thể cập nhật dữ liệu về trạng thái này!"></i>
+                    <select id="grantUsedGroups" class="form-control form-control-sm">
+                        <option value="">--Chọn chức vụ--</option>
+                        @foreach (var groups in Model)
+                        {
+                            <option selected="@(used.Id == groups.Id)" value="@groups.GroupCode">@($"[{groups.GroupCode}] - {groups.Name}")</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

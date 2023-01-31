@@ -1,0 +1,45 @@
+﻿@section top {
+    <link href="~/css/error.css" rel="stylesheet" />
+}
+@{
+    string message = string.Empty;
+    string caption = string.Empty;
+    string buttonText = "Quay lại";
+    switch ((int)ViewBag.Code)
+    {
+        case 403:
+            message = "UnAuthorize!!!...";
+            caption = "Bạn không có quyền sử dụng chức năng này!";
+            break;
+        case 401:
+        case 400:
+            message = "Oops!.. Bạn chưa đăng nhập!!!";
+            caption = "Bạn vui lòng đăng nhập để sử dụng tính năng này!";
+            buttonText = "Đăng nhập";
+            break;
+        case 404:
+            message = "Nội dung không tồn tại!!!";
+            caption = "Trang này có thể không tồn tại hoặc không còn sẵn dùng!";
+            break;
+        case 500:
+            message = "Oops!... Internal Server Error!!!";
+            caption = "Lỗi hệ thống, bạn vui lòng liên hệ với quản trị viên!";
+            break;
+    }
+}
+<div id="notfound">
+    <div class="notfound">
+        <div class="notfound-404">
+            <h1>@ViewBag.Code</h1>
+        </div>
+        <h2>@message</h2>
+        <p>@caption</p>
+        @if (ViewBag.Code != 400 && ViewBag.Code != 401)
+        {
+            <a href="#" onclick="history.back();">@buttonText</a> }
+        else
+        {
+            <a href="/Account/Login">@buttonText</a>
+        }
+    </div>
+</div>

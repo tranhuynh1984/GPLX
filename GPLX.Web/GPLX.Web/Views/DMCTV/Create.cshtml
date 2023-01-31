@@ -1,0 +1,644 @@
+﻿@using GPLX.Core.DTO.Response.DMCTV
+@*// Company: MedcomJsc
+    // User: HoanNS
+    // Date: 21-04-2022
+    // Function: Thêm mới cộng tác viên*@
+@model GPLX.Core.DTO.Response.DMCTV.DMCTVSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới cộng tác viên" : ViewBag.ViewMode == "view" ? "Thông tin đối tượng" : "Chỉnh sửa thông tin cộng tác viên";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.MaBS)" />
+    <input type="hidden" id="hddFrom" value="@(Model?.From)" />
+    @*Phần thông tin cơ bản*@
+    <div class="col-md-12">
+        <div class="card" id="cardProfile">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Mã CTV</label><label class="labelrequired">*</label>
+                            <input id="txtMaBS" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tên CTV</label><label class="labelrequired">*</label>
+                            <input id="txtTenBS" value="@(Model?.TenBS)" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Chi nhánh</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlUnit", ViewBag.unitRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Đối tượng cộng tác viên</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlPartnerObject", ViewBag.partnerObjectRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Mã SAP</label>
+                            <input id="txtMaSAP" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dmdoituong">Đại diện</label>
+                            <input id="txtNguoiDaiDien" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">SĐT di động</label>
+                            <input id="txtMobi" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>SĐT cố định</label>
+                            <input type="tel" id="txtPhoneCoDinh" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="tel" id="txtEmail" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Mã số thuế</label>
+                            <input id="txtTax" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dmdoituong">Địa chỉ</label>
+                            <input id="txtDC1" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="ddlProvince">Tỉnh</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlProvince",  ViewBag.provinceRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="ddlDistrict">Huyện</label>
+                            @Html.DropDownList("ddlDistrict", ViewBag.districtRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Ghi chú</label>
+                            @*<input placeholder="" id="txtGhiChu" value="" class="form-control form-control-sm" />*@
+                            <textarea class="form-control" id="txtGhiChu"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Phần thông tin bổ sung*@
+    <div class="col-md-12">
+        <div class="card" id="cardInfo">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <input type="date" id="txtNgaySinh" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" id="ddlGioiTinh">
+                                    <option value="-1">--Chọn--</option>
+                                    <option value="1">Nam</option>
+                                    <option value="0">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Số CMND/CCCD</label>
+                            <input id="txtSoCMND" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày cấp CMND/CCCD</label>
+                            <input type="date" id="txtNgayCapCMND" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="dmdoituong">Nơi cấp CMND/CCCD </label>
+                            <input type="text" id="txtNoiCapCMND" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="dmdoituong">Địa chỉ công ty</label>
+                            <input id="txtDCCT" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tỉnh</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlProvinceCompany",  ViewBag.provinceCompanyRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Huyện</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlDistrictCompany",  ViewBag.districtCompanyRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Chức danh</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlJobTitle",  ViewBag.jobTitleRespone as SelectList , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Chuyên khoa</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlSpecialist",  ViewBag.specicalistRespone as SelectList  , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Số CCHN</label>
+                            <input id="txtSoCCHN" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày cấp CCHN</label>
+                            <input type="date" id="txtNgayCapCMND" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="dmdoituong">Nơi cấp CCHN</label>
+                            <input type="text" id="txtNoiCapCMND" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Số tài khoản</label>
+                            <input type="text" id="txtSoTKNH" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Chi nhánh ngân hàng</label>
+                            <input type="tel" id="txtChiNhanhTKNH" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Chủ tài khoản</label>
+                            <input id="txtChuTKNH" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">User web</label>
+                            <input type="text" id="txtUserWeb" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Pass web</label>
+                            <input type="password" id="txtPassWeb" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="grGuiTinNhan">Tin nhắn</label>
+                            @* <span class="input-group-addon"><input type="checkbox" />Gửi tin nhắn tài khoản web</span>*@
+
+                            @* <div class="input-group">
+                                <span class="input-group-addon"><input type="checkbox" /></span>
+                                <input id="msg" type="text" class="form-control" name="msg" placeholder="Additional Info">
+                                </div>*@
+
+                            <div class="checkbox" name="grGuiTinNhan">
+                                <label>
+                                    <input type="checkbox" id="chkGuiTinNhanTKWeb" name="chkGuiTinNhanTKWeb" value="" />
+                                    Gửi tin nhắn tài khoản web
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dmdoituong">Thông tin CB đề xuất(tiếp cận)</label>
+                            <input id="txtThongTinDeXuat" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tên viết tắt</label>
+                            <input id="txtTenVietTat" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Mã khoa BHYT</label>
+                            <input id="txtMaKhoaBHYT" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Phần thông tin hợp đồng*@
+    <div class="col-md-12">
+        <div class="card" id="cardInfo">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Số hợp đồng</label>
+                            <input type="text" id="txtSoHD" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày ký HĐ</label>
+                            <input type="date" id="txtNgayKyHD" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày kết thúc HĐ</label>
+                            <input type="date" id="txtNgayKetThucHD" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Số phụ lục</label>
+                            <input type="text" id="txtSoPL" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày ký PL</label>
+                            <input type="date" id="txtNgayKyPL" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Ngày kết thúc PL</label>
+                            <input type="date" id="txtNgayKetThucPL" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="dmdoituong">Hình thức chiết khấu</label>
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" id="ddlHinhThucCK" >
+                                    <option value="-1">--Không--</option>
+                                    <option value="TS">Thu sau</option>
+                                    <option value="CKS">Chiết khấu sau</option>
+                                    <option value="KHA">Khác</option>
+                                    <option value="TT">Trực tiếp</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Thanh toán</label>
+                            <div class="input-group">
+                                <select class="form-control form-control-sm" id="ddlHinhThucTT">
+                                    <option value="0">Thu trước</option>
+                                    <option value="1">Thu sau</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tỷ lệ CK thu sau</label>
+                            <input type="number" id="txtCK" step="0.01" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tỷ lệ CK khách hàng</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlDiscount",  ViewBag.discountRespone as SelectList  , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="btnCreate">Tạo mới CTV</button>
+                            <button class="btn btn-primary" type="button" id="btnClose">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Mã CTV</th>
+                                        <th scope="col">Nhóm</th>
+                                        <th scope="col">BP</th>
+                                        <th scope="col">From</th>
+                                        <th scope="col">To</th>
+                                        <th scope="col">Thu sau</th>
+                                        <th scope="col">Hết hạn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        if (Model?.LogContractCTVResponseDatas != null)
+                                        {
+                                            foreach (LogContractCTVResponseData item in Model?.LogContractCTVResponseDatas)
+                                            {
+                                                <tr>
+                                                    <th scope="row">@item.LogCtvId</th>
+                                                    <td>@item.DoctorId</td>
+                                                    <td>@item.CTVGroupID</td>
+                                                    <td>@item.BP</td>
+                                                    <td>@item.FromDate</td>
+                                                    <td>@item.ToDate</td>
+                                                    <td>@item.ThuSau</td>
+                                                    <td>@item.IsHetHan</td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Phần thu sau*@
+    <div class="col-md-12">
+        <div class="card" id="cardThuSau" style="display:none">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Thời gian áp dụng của HTCK từ:</label>
+                            <input type="date" id="txtFromHTCK" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Đến:</label>
+                            <input type="date" id="txtToHTCK" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Thu sau</label>
+                            <div class="checkbox" name="grThuSau">
+                                <label>
+                                    <input type="checkbox" id="cbkThuSau" name="cbkThuSau" value="" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Tỷ lệ giảm trực tiếp cho khách hàng</label>
+                            <input type="text" id="txtGiamCode" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Tên:</label>
+                            <input type="text" id="txtGiamName" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="dmdoituong">Tỷ Lệ CK sau</label>
+                            <input type="number" id="txtTyleCK" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Phần chiết khấu sau*@
+    <div class="col-md-12">
+        <div class="card" id="cardChietKhauSau"  style="display:none">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Thời gian từ:</label>
+                            <input type="date" id="txtKhacFrom" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Đến:</label>
+                            <input type="date" id="txtKhacTo" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nhóm CTV</label>
+                            <input type="date" id="txtKhacFrom" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Biểu phí:</label>
+                            <input type="date" id="txtKhacTo" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>ĐVQL</label>
+                            <select class="form-control form-control-sm" id="ddlCKSDVQL" >
+                                <option value="-1">--Không--</option>
+                                <option value="TS">Thu sau</option>
+                                <option value="CKS">Chiết khấu sau</option>
+                                <option value="KHA">Khác</option>
+                                <option value="TT">Trực tiếp</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>HĐ CTV</label>
+                            <select class="form-control form-control-sm" id="ddlCKSHDCTV" >
+                                <option value="-1">--Không--</option>
+                                <option value="TS">Thu sau</option>
+                                <option value="CKS">Chiết khấu sau</option>
+                                <option value="KHA">Khác</option>
+                                <option value="TT">Trực tiếp</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Phần Khác*@
+    <div class="col-md-12">
+        <div class="card" id="cardKhac" style="display:none">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Thời gian từ:</label>
+                            <input type="date" id="txtKhacFrom" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Đến:</label>
+                            <input type="date" id="txtKhacTo" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="grKhacThuSau">Thu sau</label>
+                            <div class="checkbox" name="grKhacThuSau">
+                                <label>
+                                    <input type="checkbox" id="cbkKhacThuSau" name="cbkKhacThuSau" value="" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Phần trực tiếp*@
+    <div class="col-md-12">
+        <div class="card" id="cardTrucTiep" style="display:none">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Thời gian từ:</label>
+                            <input type="date" id="txtKhacFrom" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Đến:</label>
+                            <input type="date" id="txtKhacTo" value="" class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="grKhacThuSau">Thu sau</label>
+                            <div class="checkbox" name="grKhacThuSau">
+                                <label>
+                                    <input type="checkbox" id="cbkKhacThuSau" name="cbkKhacThuSau" value="" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="~/Views/Partial/_OverlayModal.cshtml" />
+
+@section top {
+    <link href="~/css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2.min.css" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.rowReorder.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/select2.min.js"></script>
+    <script src="~/js/uri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/DMCTV/create.js"></script>
+}

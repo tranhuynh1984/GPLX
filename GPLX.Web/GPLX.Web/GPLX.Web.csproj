@@ -1,0 +1,129 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Models\SideBar\**" />
+		<Compile Remove="wwwroot\js\cost_element\**" />
+		<Content Remove="Models\SideBar\**" />
+		<Content Remove="wwwroot\js\cost_element\**" />
+		<EmbeddedResource Remove="Models\SideBar\**" />
+		<EmbeddedResource Remove="wwwroot\js\cost_element\**" />
+		<None Remove="Models\SideBar\**" />
+		<None Remove="wwwroot\js\cost_element\**" />
+		<TypeScriptCompile Remove="Models\SideBar\**" />
+		<TypeScriptCompile Remove="wwwroot\js\cost_element\**" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<AnalysisLevel>5.0-all</AnalysisLevel>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="BouncyCastle" Version="1.8.9" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.26" />
+		<PackageReference Include="Hangfire.Core" Version="1.7.26" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.7.26" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.4.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
+		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GPLX.Infrastructure\GPLX.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Resources\out\" />
+		<Folder Include="wwwroot\metadata\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Models\MenuBuilder.cs" />
+		<None Include="Views\Error\Index.cshtml" />
+		<None Include="Views\Partial\MainMenu.cshtml" />
+		<None Include="Views\Partial\_ConfirmModal.cshtml" />
+		<None Include="Views\Partial\_ExtraLargeModal.cshtml" />
+		<None Include="Views\Partial\_FullScreen.cshtml" />
+		<None Include="Views\Partial\_OverlayModal.cshtml" />
+		<None Include="Views\Shared\Components\SideBar\_MenuPartial.cshtml" />
+		<None Include="Views\Shared\Components\SubMenu\_SubMenuPartial.cshtml" />
+		<None Include="Views\Shared\Components\SwitchUnit\_SwitchUnit.cshtml" />
+		<None Include="Views\Shared\Error.cshtml" />
+		<None Include="Views\Shared\_Layout.cshtml" />
+		<None Include="Views\Shared\_Special.cshtml" />
+		<None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+		<None Include="Views\Step\List.cshtml" />
+		<None Include="Views\Unit\List.cshtml" />
+		<None Include="Views\Unit\_SetTypeView.cshtml" />
+		<None Include="Views\Users\List.cshtml" />
+		<None Include="Views\Users\Profile.cshtml" />
+		<None Include="Views\Users\_Settings.cshtml" />
+		<None Include="Views\_ViewImports.cshtml" />
+		<None Include="Views\_ViewStart.cshtml" />
+		<None Include="wwwroot\css\images\logochuan-01.png" />
+		<None Include="wwwroot\css\images\logochuan-16.png" />
+		<None Include="wwwroot\css\images\logochuan-32.png" />
+		<None Include="wwwroot\js\DeXuat\createdexuatmomactv.js" />
+		<None Include="wwwroot\js\DeXuat\createdexuatluanchuyenma.js" />
+		<None Include="wwwroot\js\DeXuat\createdexuatkhoama.js" />
+		<None Include="wwwroot\js\DeXuat\createdexuatsuama.js" />
+		<None Include="wwwroot\js\DMChucDanh\list.js" />
+		<None Include="wwwroot\js\DMCTV\create.js" />
+		<None Include="wwwroot\js\DMCTV\list.js" />
+		<None Include="wwwroot\js\DMDoiTuong\list.js" />
+		<None Include="wwwroot\js\DMCKDoiTuong\list.js" />
+		<None Include="wwwroot\js\DM\list.js" />
+		<None Include="wwwroot\js\HDCTV\create.js" />
+		<None Include="wwwroot\js\HDCTV\list.js" />
+		<None Include="wwwroot\js\HDKCB\list.js" />
+		<None Include="wwwroot\js\DeXuat\list.js" />
+		<None Include="wwwroot\js\LoaiDeXuat\list.js" />
+		<None Include="wwwroot\js\Step\list.js" />
+		<None Include="wwwroot\js\DMDV\list.js" />
+		<None Include="wwwroot\js\DMHuyen\list.js" />
+		<None Include="wwwroot\js\DMPN\list.js" />
+		<None Include="wwwroot\js\ProfileCK\create.js" />
+		<None Include="wwwroot\js\ProfileCK\list.js" />
+		<None Include="wwwroot\js\Relationship\list.js" />
+		<None Include="wwwroot\js\DMBS_ChuyenKhoa\list.js" />
+		<None Include="wwwroot\js\DMTinh\list.js" />
+		<None Include="wwwroot\js\DMCP\list.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Aspose.Cells">
+			<HintPath>Resources\Aspose.Cells-NET.dll</HintPath>
+		</Reference>
+		<Reference Include="itextsharp">
+			<HintPath>Resources\reference\itextsharp.dll</HintPath>
+		</Reference>
+		<Reference Include="SignService.Common.HashSignature">
+			<HintPath>Resources\reference\SignService.Common.HashSignature.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Security.Custom">
+			<HintPath>Resources\reference\System.Security.Custom.dll</HintPath>
+		</Reference>
+		<Reference Include="WindowBaseExt">
+			<HintPath>Resources\reference\WindowBaseExt.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+</Project>

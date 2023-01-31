@@ -1,0 +1,36 @@
+.modal-header {
+    background-color: #ececec;
+    border-bottom: 1px solid!important;
+    border-bottom-color: #d9d6d6!important;
+}
+.form-group .required .control-label:after {
+    content: "*";
+    color: red;
+}
+.labelrequired{
+    color:red;
+}
+.itemerror {
+    /*background-color: red;*/
+    border-color:red!important;
+}
+#swal2-title{
+    text-align:center;
+}
+
+@media only screen and (max-width: 780px) {
+    .zoom300padding20 {
+        padding-top: 20px;
+    }
+}
+
+.exportpdf:hover {
+    cursor: pointer;
+}
+.select.form-control-sm ~ .select2-container--default {
+    font-size:100%!important;
+}
+
+.aDone {
+    color: #198754!important;
+}

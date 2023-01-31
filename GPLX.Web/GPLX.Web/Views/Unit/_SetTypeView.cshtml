@@ -1,0 +1,15 @@
+﻿@model List<SelectListItem>
+<input type="hidden" id="___record" value="@ViewBag.Code"/>
+<div class="col-md-12">
+    <form id="___createForm">
+        <div class="form-group">
+            <label>Chọn nhóm đơn vị</label>
+            <select class="form-control form-control-sm" id="selectTypes" name="selectTypes">
+                @foreach (var i in Model)
+                {
+                    <option selected="@(i.Value.Equals(ViewBag.UnitType))" value="@i.Value">@i.Text</option>
+                }
+            </select>
+        </div>
+    </form>
+</div>

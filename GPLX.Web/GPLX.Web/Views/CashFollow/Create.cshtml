@@ -1,0 +1,195 @@
+﻿@{
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.Record) ? "Chi tiết kế hoạch dòng tiền" : "Lập kế hoạch dòng tiền";
+    ViewData["PageTitle"] = !string.IsNullOrEmpty(Model.Record) ? "Chi tiết kế hoạch dòng tiền" : "Lập kế hoạch dòng tiền";
+}
+@using Newtonsoft.Json
+@model CashFollowCreateModel
+<input id="__recordCostEstimate" type="hidden" value="@(Model.Record)" />
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        @if (Model.EnableCreate)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group mb-0">
+                                <label>Năm tài chính:</label>
+                                <select class="form-control form-control-sm" id="selectYear">
+                                    @for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + 2; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                    <option value="-100" selected="selected">Chọn năm tài chính</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-9 align-items-end col-md-9 d-flex justify-content-end">
+                            <div class="card-tools float-right">
+                                <div class="input-group input-group-sm">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-truncate align-middle d-none mr-2" id="labelFileSelect"></span>
+                                        <button class="btn btn-sm btn-default d-none mr-2" type="button" id="btnStartUpload">
+                                            <i class="fas fa-arrow-circle-up mr-1"></i> <span>Tải lên</span>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-success mr-2" type="button" id="btnSelectExcelFile" title="Nhập dữ liệu từ excel">
+                                            <i class="fas fa-file-excel"></i>
+                                        </button>
+
+                                        <a class="btn btn-sm btn-outline-primary mr-2 disabled" downloadExcel href="/CostEstimateItem/DownloadTemplate?opts=xlsx;cash-follow&s=@ViewBag.UnitType&year=@(DateTime.Now.Year + 1)" title="Tải tệp excel mẫu">
+                                            <i class="fas fa-file-download"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <div class="card">
+            <div class="card-body">
+                <p class="font-weight-bold">I. Tổng hợp Kế hoạch dòng tiền</p>
+                <div class="col-md-12 col-sm-12">
+                    <table class="table table-sm table-striped table-bordered display nowrap" id="createAggregates" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th position="0">STT</th>
+                            <th position="1" scope="col" class="align-top">Nội dung</th>
+                            <th position="2" scope="col" class="align-top">Q1</th>
+                            <th position="3" scope="col" class="align-top">Q2</th>
+                            <th position="4" scope="col" class="align-top">Q3</th>
+                            <th position="5" scope="col" class="align-top">Q4</th>
+                            <th position="6" scope="col" class="align-top">Tổng cả năm</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="card-header">
+                @if (Model.DataView != null && !string.IsNullOrEmpty(Model.DataView.CashFollow.PathPdf))
+                {
+                    <a href="@(Model.DataView.CashFollow.PathPdf)" target="_blank" class="btn text-danger" title="Xem chi tiết tệp kế hoạch dòng tiền">
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                }
+                <div class="card-tools">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group input-group-sm">
+
+                                <input type="text" name="table_search" id="__inputTableSearch" class="form-control float-right" placeholder="Nhập nội dung để tìm kiếm">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-default" id="__btnTableSearch">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <p class="font-weight-bold">II. Kế hoạch dòng tiền chi tiết</p>
+                <table class="table table-sm table-striped table-bordered display nowrap" id="createCostEstimateUploadTable" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th position="0" scope="col" class="align-top">#</th>
+                            <th position="1" scope="col" class="align-top">Nội dung</th>
+                            <th position="2" scope="col" class="align-top">Tháng 1</th>
+                            <th position="3" scope="col" class="align-top">Tháng 2</th>
+                            <th position="4" scope="col" class="align-top">Tháng 3</th>
+                            <th position="5" scope="col" class="align-top">Tháng 4</th>
+                            <th position="6" scope="col" class="align-top">Tháng 5</th>
+                            <th position="7" scope="col" class="align-top">Tháng 6</th>
+                            <th position="8" scope="col" class="align-top">Tháng 7</th>
+                            <th position="9" scope="col" class="align-top">Tháng 8</th>
+                            <th position="10" scope="col" class="align-top">Tháng 9</th>
+                            <th position="11" scope="col" class="align-top">Tháng 10</th>
+                            <th position="12" scope="col" class="align-top">Tháng 11</th>
+                            <th position="13" scope="col" class="align-top">Tháng 12</th>
+                            <th position="14" scope="col" class="align-top">Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card d-none" id="boxExcelErrors">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách mã lỗi</h3>
+            </div>
+            <div class="card-body">
+                <p id="errorCollapse" class="collapse" aria-expanded="false">
+                </p>
+                <a class="collapsed" data-toggle="collapse" href="#errorCollapse" aria-expanded="false" aria-controls="errorCollapse"></a>
+            </div>
+        </div>
+
+        <div class="card">
+            @if (Model.EnableCreate)
+            {
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 text-right mb-2">
+                            <input type="file" class="d-none" id="costEstimateExcelFile" accept=".xlsx" />
+                            <button class="btn btn-sm med-btn-outline-primary" type="button" id="btnCreate">
+                                <i class="fas fa-save mr-2"></i> Lưu lại
+                            </button>
+                            <button class="btn btn-sm med-btn-outline-primary" type="button" data-back="true">
+                                Quay lại
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section top {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="~/css/editor.bootstrap.min.css" rel="stylesheet" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.scroller.min.js"></script>
+}
+
+
+
+@section scripts
+{
+    <script src="~/js/uri.js"></script>
+    @if (!string.IsNullOrEmpty(Model.Record))
+    {
+        <script type="text/javascript">
+            var dataSrc = @Html.Raw(JsonConvert.SerializeObject(Model.DataView, new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }));
+            @if (Model.DataView == null)
+            {
+                @Html.Raw("costJsBase.EventNotify('error', 'Không tìm thấy dữ liệu yêu cầu!')");
+            }
+        </script>
+    }
+    <script src="~/js/cashfollow/create.js"></script>
+}

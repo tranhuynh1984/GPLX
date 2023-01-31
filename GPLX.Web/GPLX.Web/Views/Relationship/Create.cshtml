@@ -1,0 +1,132 @@
+﻿@model GPLX.Core.DTO.Response.Relationship.RelationshipSearchResponseData
+@{
+    string viewMode = ViewBag.ViewMode ?? string.Empty;
+    string display = Model == null ? "Thêm mới quan hệ" : ViewBag.ViewMode == "view" ? "Thông tin quan hệ" : "Chỉnh sửa thông tin quan hệ";
+}
+<div class="row">
+    <input type="hidden" id="___record" value="@(Model?.RelationshipCode)" />
+    <div class="col-md-12">
+        <div class="card">
+            @*<div class="card-header" style="background-color:#ececec">
+                @display
+            </div>*@
+            <div class="card-body">
+                
+                @if (viewMode.Equals("view"))
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtmaRelationship">Mã quan hệ</label>
+                                <input id="txtmaRelationship" value="@(Model?.RelationshipCode)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txttenRelationship">Tên quan hệ</label>
+                                <input id="txttenRelationship" value="@(Model?.RelationshipName)" class="form-control form-control-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatusRelationshipCode" disabled>
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian tạo</label>
+                                <input value="" class="form-control form-control-sm" value="@(Model?.Createdate)" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Stt)" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian sửa</label>
+                                <input class="form-control form-control-sm" value="@(Model?.Updatedate)" disabled />
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtmaRelationship">Mã quan hệ</label><label class="labelrequired">*</label>
+                                @if(String.IsNullOrEmpty(Model?.RelationshipCode))
+                                {
+                                    <input id="txtmaRelationship" value="" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                                else
+                                {
+                                    <input id="txtmaRelationship" value="@(Model?.RelationshipCode)" readonly="readonly"  class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" maxlength="20" />
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txttenRelationship">Tên quan hệ</label><label class="labelrequired">*</label>
+                                <input id="txttenRelationship" value="@(Model?.RelationshipName)" class="form-control form-control-sm" maxlength="200"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="ddlStatusRelationshipCode">
+                                        @if(Model?.IsActive== 0)
+                                        {
+                                            <option value="0" selected>Vô hiệu</option>
+                                            <option value="1">Kích hoạt</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0" >Vô hiệu</option>
+                                            <option value="1" selected>Kích hoạt</option>
+                                        }
+                                    </select>
+                                </div>
+                            
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thứ tự:</label><label class="labelrequired">*</label>
+                                <input id="txtstt" value="@(Model?.RelationshipCode == null ? Model?.MaxStt : Model?.Stt)" class="form-control form-control-sm" disabled="@(viewMode .Equals("view"))" type="text" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" maxlength="4"/>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#txtmaRelationship").change(function () {
+        $("#txtmaRelationship").removeClass('itemerror');
+    });
+    $("#txttenRelationship").change(function () {
+        $("#txttenRelationship").removeClass('itemerror');
+    });
+</script>

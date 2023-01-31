@@ -1,0 +1,263 @@
+﻿@using GPLX.Web.Models.Dashboard
+@{
+    ViewData["Title"] = "Đề xuất luân chuyển mã";
+    ViewData["PageTitle"] = "Đề xuất luân chuyển mã"; 
+}
+
+@model DeXuatTaoMaFilterModel
+<div class="row">
+    <input type="hidden" id="hddmaProfileCK" value="" />
+    <input type="hidden" id="hddIDRole" value="@Model.IDRole" />
+    <input type="hidden" id="hddLoaiDeXuatCode" value="DeXuatLuanChuyenMa" />
+    <input type="hidden" id="hddProcessStepId" value="@Model.DeXuatSearchResponseData.ProcessStepId" />
+    <input type="hidden" id="hddProcessId" value="@Model.ProcessId" />
+    <input type="hidden" id="___record" value="@Model.MaDeXuat" />
+    <input type="hidden" id="maxRow" value="1" />
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="txtmadexuat">Mã ĐX</label><label class="labelrequired">*</label>
+                            <input id="txtmadexuat" placeholder="Nhập mã đề xuất" value="@Model.MaDeXuat" class="form-control form-control-sm" maxlength="20" disabled='@(Model.MaDeXuat != "")' />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="txttendexuat">Tên ĐX</label><label class="labelrequired">*</label>
+                            <input id="txttendexuat" placeholder="Nhập tên đề xuất" value="@Model.DeXuatSearchResponseData?.DeXuatName" class="form-control form-control-sm" maxlength="200" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Đơn vị quản lý hiện tại:</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlDMDVCU", Model.ListDMDV , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Đơn vị mới:</label>
+                            <div class="input-group">
+                                @Html.DropDownList("ddlDMDVMOI", Model.ListDMDV , new { @class = "form-control form-control-sm select2-selection" , @style="font-size: 0.9rem" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Ghi chú chung:</label>
+                            <div class="input-group"  style="height:100%">
+                                <textarea class="form-control" rows="3" id="txtGhiChu" placeholder="Nhập ghi chú khóa" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")">@Model.DeXuatSearchResponseData?.Note</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnSaveDX" style="min-width:150px" disabled="@((Model.IDRole != 1 && Model.MaDeXuat != "") ||Model.Permission == -1 || (Model.DeXuatSearchResponseData != null && Model.IDRole < Model.DeXuatSearchResponseData.ProcessStepId))"><i class="fad fa-plus-circle" ></i>Lưu</button>
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnPush" style="min-width:150px" disabled="@(Model.Permission == 2 ||Model.Permission == -1 || Model.MaDeXuat == "")"><i class="fad fa-plus-circle" ></i>Đẩy</button>
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnReject" style="min-width:150px" disabled="@(Model.Permission == 0 ||Model.Permission == 2 ||Model.Permission == -1 || Model.MaDeXuat == "")"><i class="fad fa-plus-circle" ></i>Hủy</button>
+                            <button class="btn btn-sm btn btn-default" id="btnBack" style="min-width:150px"><i class="fad"></i>Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12" style='@(@Model.MaDeXuat != ""? "display:block" : "display:none")' >
+        <div class="card">
+            <div class="card-header">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <button class="btn btn-sm med-btn-outline-primary" id="btnNew" style="min-width:150px"><i class="fad fa-plus-circle"></i>Thêm CTV</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="tblList">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Thao tác:</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Mã CTV:</label><label class="labelrequired">*</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tên CTV</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Thời gian khóa:</label><label class="labelrequired">*</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Lý do:</label>
+                        </div>
+                    </div>
+                </div>
+                @if(Model.DeXuatLuanChuyenMaSearchResponse.Data != null && Model.DeXuatLuanChuyenMaSearchResponse.Data.Count>0)
+                {
+                    for(int i =0; i< Model.DeXuatLuanChuyenMaSearchResponse.Data.Count; i++)
+                    {
+                        var item = Model.DeXuatLuanChuyenMaSearchResponse.Data[i];
+                        <div class="row" >
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <a class="btnSaveNewRow" title="Lưu thông tin" href="javascript:void(0)"><i class="fa fa-save" style="font-size: 20px;padding-top:5px;"></i></a>
+                                    <a class="text-danger btnRemove" title="Xóa thông tin" href="javascript:void(0)"><i class="fad fa-ban" style="font-size: 20px;padding-top:5px;"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm lblCTV" id='"lblCTV" +@i' disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")">
+                                            <option value="-1" TagName="">Chọn CTV</option>
+                                            @foreach(var itemCTV in Model.DMCTVSearchResponse.Data)
+                                            {
+                                                if(@itemCTV.MaBS.Equals(item.MaCTV))
+                                                {
+                                                    <option value="@itemCTV.MaBS" TagName="@itemCTV.TenBS" selected="selected" >@itemCTV.MaBS - @itemCTV.TenBS</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@itemCTV.MaBS" TagName="@itemCTV.TenBS" >@itemCTV.MaBS - @itemCTV.TenBS</option>
+                                                }
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input value="@item.TenCTV" disabled class="form-control form-control-sm txtTenBS" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="date" class="form-control form-control-sm txtTimeBlock" placeholder="Thời gian khóa" value='@item.ThoiGianKhoa.ToString("yyyy-MM-dd")' disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input value="@item.Note" class="form-control form-control-sm txtNote" disabled="@(Model.Permission == 2 && Model.MaDeXuat != "")"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <div class="row" >
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <a class="btnSaveNewRow" title="Lưu thông tin" href="javascript:void(0)"><i class="fa fa-save" style="font-size: 20px;padding-top:5px;"></i></a>
+                                <a class="text-danger btnRemove" title="Xóa thông tin" href="javascript:void(0)"><i class="fad fa-ban" style="font-size: 20px;padding-top:5px;"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm lblCTV" id="lblCTV0">
+                                        <option value="-1" TagName="">Chọn CTV</option>
+                                        @foreach(var item in Model.DMCTVSearchResponse.Data)
+                                        {
+                                            <option value="@item.MaBS" TagName="@item.TenBS">@item.MaBS - @item.TenBS</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input value="" disabled class="form-control form-control-sm txtTenBS" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="date" class="form-control form-control-sm txtTimeBlock" placeholder="Thời gian khóa" value='@System.DateTime.Now.ToString("yyyy-MM-dd")'/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input value="" class="form-control form-control-sm txtNote" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <select id="lblCTV" style="display:none">
+                    <option value="-1" TagName="">Chọn CTV</option>
+                    @foreach(var item in Model.DMCTVSearchResponse.Data)
+                    {
+                        <option value="@item.MaBS" >@item.TenBS</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="~/Views/Partial/_OverlayModal.cshtml" />
+
+@section top {
+    <link href="~/css/common.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/node_modules/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2.min.css" />
+}
+@section middle_scripts
+{
+    <script src="~/node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <script src="~/js/extends/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/extends/dataTables.rowReorder.min.js"></script>
+}
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="~/js/jquery.customValidate.js" type="text/javascript"></script>
+    <script src="~/js/uri.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/js/select2.min.js"></script>
+    <script type="text/javascript" src="~/js/DeXuat/createdexuatluanchuyenma.js"></script>
+}
+<style type="text/css">
+    .modal-dialog{
+        max-width: 90%!important;
+        min-height: 800px!important;
+    }
+</style>
+
+<style type="text/css">
+    .select2-container--default {
+        font-size: 100%!important;
+    }
+</style>
